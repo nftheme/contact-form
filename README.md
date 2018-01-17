@@ -4,7 +4,7 @@
 #### Installation
 ##### Step 1: Install Through Composer
 ```
-composer require nf/contact-form
+composer require garung/contact-form-for-nftheme
 ```
 ##### Step 2: Add the Service Provider
 > Open `config/app.php` and register the required service provider.
