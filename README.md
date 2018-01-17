@@ -19,9 +19,14 @@ composer require nf/contact-form
 > You can add your option scheme to `functions.php`
 
 All supported type can be found here 
-- [https://github.com/hieu-pv/nf-theme-option/tree/master/src/Inputs](https://github.com/hieu-pv/nf-theme-option/tree/master/src/Inputs)
-- [https://github.com/hieu-pv/nf-theme-option/tree/master/src/Type](https://github.com/hieu-pv/nf-theme-option/tree/master/src/Type)
+- [https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Input.php](https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Input.php)
+- [https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Type.php](https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Type.php)
+
 ```
+use Garung\ContactForm\Abstracts\Input;
+use Garung\ContactForm\Abstracts\Type;
+use Garung\ContactForm\Facades\ContactFormManager;
+
 ContactFormManager::add([
     'name'   => 'subcribe', // or 'contact'
     'type'   => Type::CONTACT,
