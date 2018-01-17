@@ -1,0 +1,164 @@
+@import '~vicoders/dist/app.min.css';
+#vicoders-notify {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 999999,
+}
+// @import "~font-awesome/scss/font-awesome.scss";
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~bootstrap/scss/_mixins";
+@import "~bootstrap/scss/_modal";
+#nf-theme-contact {
+    @import "~bootstrap/scss/_root";
+    @import "~bootstrap/scss/_reboot";
+    @import "~bootstrap/scss/_type";
+    @import "~bootstrap/scss/_images";
+    @import "~bootstrap/scss/_code";
+    @import "~bootstrap/scss/_grid";
+    @import "~bootstrap/scss/_tables";
+    @import "~bootstrap/scss/_forms";
+    @import "~bootstrap/scss/_buttons";
+    @import "~bootstrap/scss/_modal";
+    @import "~bootstrap/scss/_transitions";
+    @import "~bootstrap/scss/_dropdown";
+    @import "~bootstrap/scss/_button-group";
+    @import "~bootstrap/scss/_input-group";
+    @import "~bootstrap/scss/_custom-forms";
+    @import "~bootstrap/scss/_nav";
+    @import "~bootstrap/scss/_navbar";
+    @import "~bootstrap/scss/_card";
+    @import "~bootstrap/scss/_breadcrumb";
+    @import "~bootstrap/scss/_pagination";
+    @import "~bootstrap/scss/_badge";
+    @import "~bootstrap/scss/_jumbotron";
+    @import "~bootstrap/scss/_alert";
+    @import "~bootstrap/scss/_progress";
+    @import "~bootstrap/scss/_media";
+    @import "~bootstrap/scss/_list-group";
+    @import "~bootstrap/scss/_close";
+    @import "~bootstrap/scss/_tooltip";
+    @import "~bootstrap/scss/_popover";
+    @import "~bootstrap/scss/_carousel";
+    @import "~bootstrap/scss/_utilities";
+    @import "~bootstrap/scss/_print";
+    $font_size_normal: 14px;
+    $grey_bg: #eaeaea;
+    background: #fff;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: -20px;
+    .modal-dialog {
+        margin: 2.75rem auto;
+    }
+    .hidden {
+        display: none!important;
+    }
+    li {
+        margin-bottom: 0px;
+    }
+    .btn {
+        font-size: 14px;
+    }
+    .nto-header {
+        .nto-title {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .nto-tabs {
+            li {
+                a {
+                    font-size: $font_size_normal;
+                }
+            }
+        }
+    }
+    .nto-content {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        .nto-form {
+            .form-group {
+                label {
+                    font-size: $font_size_normal;
+                }
+                .form-control {
+                    font-size: $font_size_normal;
+                }
+            }
+            .nto-image {
+                padding: 0px;
+                background: $grey_bg;
+                margin-bottom: 20px;
+                width: 40rem;
+                .card-img-top {
+                    background-size: cover;
+                }
+            }
+            .nto-gallery {
+                background: $grey_bg;
+                margin-bottom: 20px;
+                width: 40rem;
+                padding: 0px;
+                .nto-items {
+                    margin: 5px 20px 20px 5px;
+                    .nto-gallery-item {
+                        width: 25%;
+                        padding: 5px;
+                        float: left;
+                        overflow: auto;
+                        transition: all 0.2s;
+                        position: relative;
+                        img {
+                            width: 100%;
+                            background-size: cover;
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            border: 1px solid #ddd;
+                        }
+                        &.sortable-ghost {
+                            opacity: 0.5;
+                        }
+                        &:hover {
+                            cursor: pointer;
+                        }
+                        .meta-data {
+                            display: inline-block;
+                            width: calc(100% - 12px);
+                            position: absolute;
+                            bottom: 6px;
+                            left: 6px;
+                            background: rgba(0, 0, 0, 0.3);
+                            transition: all 0.25s;
+                            .dashicons {
+                                color: #fff;
+                                font-size: 14px;
+                                line-height: 22px;
+                                margin-left: 5px;
+                            }
+                            &:hover {
+                                background: rgba(0, 0, 0, 0.6);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .contact-module-table {
+        .text-success {
+            color: #3c763d;
+            font-weight: 600;
+        }
+        .text-danger {
+            color: #8a6d3b;
+            font-weight: 600;
+        }
+        .text-danger {
+            color: #a94442;
+            font-weight: 600;
+        }
+    }
+}

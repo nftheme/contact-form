@@ -1,0 +1,18 @@
+{
+    "name": "nf/contact-form",
+    "description": "Extension kit for NF Theme",
+    "license": "MIT",
+    "authors": [{
+        "name": "Hieupv",
+        "email": "hieupv@codersvn.com"
+    }],
+    "autoload": {
+        "psr-4": {
+            "Garung\\ContactForm\\": "src/"
+        }
+    },
+    "require": {
+        "nf/core": ">=2.0",
+        "guzzlehttp/guzzle": "^6.3"
+    }
+}
