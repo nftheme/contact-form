@@ -127,7 +127,7 @@ class Manager
     {
         return get_admin_url() . 'admin.php?page=' . self::MENU_SLUG . '&tab=' . str_slug($name);
     }
-
+    
     /**
      * Retrievie the list of pages
      *

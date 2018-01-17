@@ -3,8 +3,10 @@
 namespace Garung\ContactForm\Pages;
 
 use Garung\ContactForm\Abstracts\AdminPage;
+use Garung\ContactForm\Facades\PaginationHelper;
 use Garung\ContactForm\Manager;
 use Garung\ContactForm\Models\Contact;
+use League\Flysystem\Exception;
 use NF\Facades\App;
 use NF\Facades\Request;
 
@@ -18,8 +20,9 @@ class Option extends AdminPage
 
     public function render()
     {
-        $manager = App::make('ContactFormManager');
-        $pages   = $manager->getPages();
+        $name_tab = Request::get('tab');
+        $manager  = App::make('ContactFormManager');
+        $pages    = $manager->getPages();
         if (!isset($pages)) {
             throw new \Exception("Please register your option scheme", 1);
         }
@@ -32,7 +35,18 @@ class Option extends AdminPage
             $should_flash = true;
             delete_option(Manager::NTO_SAVED_SUCCESSED);
         }
-        $contact_data = Contact::where('type_of_name', Request::get('tab'))->paginate(1);
-        echo view('vendor.option.admin', compact('manager', 'pages', 'current_page', 'should_flash', 'contact_data', 'status_active', 'status_deactive', 'status_cancel'));
+
+        $page_query_param = Request::has('p') ? (int) Request::get('p') : 1;
+        $per_page         = 1;
+        $type_of_name     = (!empty($name_tab)) ? $name_tab : 'contact';
+        $query            = new Contact();
+        $query            = $query->where('type_of_name', $type_of_name);
+        $total            = $query->count();
+        $contact_data     = $query->skip(($page_query_param - 1) * $per_page)->take($per_page)->get();
+
+        $next_page_url = PaginationHelper::getNextPageUrl($name_tab, $page_query_param, $total);
+        $prev_page_url = PaginationHelper::getPreviousPageUrl($name_tab, $page_query_param);
+
+        echo view('vendor.option.admin', compact('manager', 'pages', 'current_page', 'should_flash', 'contact_data', 'status_active', 'status_deactive', 'status_cancel', 'next_page_url', 'prev_page_url', 'total', 'page_query_param'));
     }
 }

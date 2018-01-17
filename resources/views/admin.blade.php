@@ -34,7 +34,7 @@
                         $records = json_decode($row->data);
                     @endphp
                         <tr>
-                            <th scope="row">{!! $key !!}</th>
+                            <th scope="row">{!! $row->id !!}</th>
                             @foreach($current_page->fields as $field)
                                 <td>
                                 @foreach($records as $key_record => $record)
@@ -59,7 +59,16 @@
             </tbody>
         </table>
         <div class="paginate">
-            {{-- {{ $contact_data->links() }} --}}
+            @php
+                $data = [
+                    'paginator'   => $contact_data,
+                    'next_page_url' => $next_page_url,
+                    'prev_page_url' => $prev_page_url,
+                    'page_query_param' => $page_query_param,
+                    'total' => $total,
+                ];
+            @endphp
+            {{ view('vendor.option.pagination.default', $data) }}
         </div>
     </div>
 </div>
