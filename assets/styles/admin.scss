@@ -6,6 +6,7 @@
     width: 100%;
     z-index: 999999,
 }
+
 // @import "~font-awesome/scss/font-awesome.scss";
 @import "~bootstrap/scss/_functions";
 @import "~bootstrap/scss/_variables";
@@ -159,6 +160,13 @@
         .text-danger {
             color: #a94442;
             font-weight: 600;
+        }
+    }
+    .pagination {
+        .info-page-item {
+            line-height: 30px;
+            margin-right: 20px;
+            margin-left: 20px;
         }
     }
 }

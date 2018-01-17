@@ -121,5 +121,9 @@ Example:
 ```php
 do_shortcode("[nf_contact_form name='Contact']")
 ```
+
+## Custom layout for paginator
+> You can change layout for pagination in `resources/views/vendor/option/pagination/default.blade.php`
+
 ## Last step
 > {tip} Drink tea and relax !
