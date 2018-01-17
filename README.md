@@ -4,7 +4,7 @@
 #### Installation
 ##### Step 1: Install Through Composer
 ```
-composer require garung/migration-for-nftheme
+composer require nf/contact-form
 ```
 ##### Step 2: Add the Service Provider
 > Open `config/app.php` and register the required service provider.
@@ -12,7 +12,7 @@ composer require garung/migration-for-nftheme
 ```php
   'providers'  => [
         // .... Others providers 
-        \Garung\ContactForm\ContactForm2ServiceProvider::class
+        \Garung\ContactForm\ContactFormServiceProvider::class
     ],
 ```
 ##### Step 3: Register your option scheme
@@ -100,7 +100,7 @@ ContactFormManager::add([
 ```
 
 ##### Step 4: Add shortcode
-> Automatic create a shortcode name `nf_contact_form` with a attribute `name`:
+> Automatic create a shortcode name `nf_contact_form` with a attribute `name` is require:
 
 ```php
 [nf_contact_form name="{form_name}"]

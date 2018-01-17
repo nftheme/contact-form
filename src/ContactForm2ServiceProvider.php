@@ -11,7 +11,7 @@ use League\Flysystem\Exception;
 use NF\Facades\App;
 use NF\Facades\Request;
 
-class ContactForm2ServiceProvider extends ServiceProvider
+class ContactFormServiceProvider extends ServiceProvider
 {
     public function register()
     {
