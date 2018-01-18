@@ -35,7 +35,9 @@ class Option extends AdminPage
             $should_flash = true;
             delete_option(Manager::NTO_SAVED_SUCCESSED);
         }
-
+        if(empty($name_tab)) {
+            $name_tab = $current_page->name;
+        }
         $page_query_param = Request::has('p') ? (int) Request::get('p') : 1;
         $per_page         = 1;
         $type_of_name     = (!empty($name_tab)) ? $name_tab : 'contact';
