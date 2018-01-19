@@ -1,5 +1,9 @@
 import Sortable from 'sortablejs';
 import 'bootstrap';
+import {
+    notify
+}
+from 'vicoders/services';
 
 (function($) {
     if($('body').hasClass('wp-admin')) {
@@ -134,6 +138,27 @@ import 'bootstrap';
                         $(evt.srcElement).parent().find('input').val(JSON.stringify(items))
                     });
                 }
+            });
+        });
+
+        $(document).on('click', `.check_status`, function(){
+            var attr_id = $(this).attr('attr-id');
+            var status = $(this).attr('status');
+            console.log(attr_id, status);
+            $.ajax({
+                method: 'POST',
+                url: ajax_obj.ajax_url,
+                data: {
+                    action: 'change_status_record_contact',
+                    id: attr_id,
+                    status: status
+                },
+            })
+            .done((response) => {
+                notify.show('success', response.data.message, 5000)
+            })
+            .fail(() => {
+                notify.show('warning', response.data.message, 5000);
             });
         });
     }

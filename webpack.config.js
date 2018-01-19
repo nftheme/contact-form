@@ -13,7 +13,6 @@ module.exports = {
 	entry: {
 		app: [
 			'./assets/scripts/app.js',
-			'./assets/scripts/admin.js',
 			'./assets/styles/app.scss',
 		]
 	},

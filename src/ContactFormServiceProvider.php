@@ -38,7 +38,8 @@ class ContactFormServiceProvider extends ServiceProvider
         $this->registerAction();
     }
 
-    public function initDirectoriesAndFiles() {
+    public function initDirectoriesAndFiles()
+    {
         if (!file_exists(get_stylesheet_directory() . '/database/migrations/2018_01_01_000000_create_contact_table.php')) {
             copy(get_stylesheet_directory() . '/vendor/garung/contact-form-for-nftheme/src/database/migrations/2018_01_01_000000_create_contact_table.php', get_stylesheet_directory() . '/database/migrations/2018_01_01_000000_create_contact_table.php');
         }
@@ -91,19 +92,26 @@ class ContactFormServiceProvider extends ServiceProvider
                 'admin-contact-scripts',
                 wp_slash(get_stylesheet_directory_uri() . '/vendor/garung/contact-form-for-nftheme/assets/dist/app.js'),
                 'jquery',
-                '1.0',
+                '1.0.1',
                 true
             );
+            $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+            $params   = [
+                'ajax_url' => admin_url('admin-ajax.php', $protocol),
+            ];
+            wp_localize_script('admin-contact-scripts', 'ajax_obj', $params);
         });
+
         add_action('admin_post_nto_save', [ContactFormManager::class, 'save']);
         add_action('wp_ajax_nto_remove', [ContactFormManager::class, 'remove']);
+        add_action('wp_ajax_change_status_record_contact', [$this, 'changeStatus']);
     }
 
     public function handle()
     {
         $data['message'] = 'An error while save infomation !';
         $request         = Request::except('action', 'type');
-        $type       = Request::only('type');
+        $type            = Request::only('type');
         if (!empty($request)) {
             $contact               = new Contact();
             $contact->data         = json_encode($request);
@@ -142,11 +150,45 @@ class ContactFormServiceProvider extends ServiceProvider
             if (!isset($forms)) {
                 throw new \Exception("Please register your option scheme", 1);
             }
-            $form    = $manager->getForm($args['name']);
-            $type = $form->getType();
-            $style = $form->getStyle();
+            $form   = $manager->getForm($args['name']);
+            $type   = $form->getType();
+            $style  = $form->getStyle();
             $fields = $form->fields;
             return App::make('ContactFormView')->render('contact_form', compact('fields', 'type', 'style'));
         });
+    }
+
+    public function changeStatus()
+    {
+        $data['message'] = 'Data not found !';
+        $request         = Request::except('action');
+        if (!empty($request)) {
+            $id     = $request['id'];
+            $status = $request['status'];
+            if (!isset($id) || !isset($status)) {
+                $data['message'] = 'ID or Status not undefine !';
+                wp_send_json(compact('data'));
+            }
+            $contact = Contact::find($id);
+            switch ($request['status']) {
+                case 0:
+                    $contact->status = Contact::DEACTIVE;
+                    break;
+                case 1:
+                    $contact->status = Contact::ACTIVE;
+                    break;
+                case 2:
+                    $contact->status = Contact::CANCEL;
+                    break;
+                default:
+                    $contact->status = Contact::DEACTIVE;
+                    break;
+            }
+            $result = $contact->save();
+            if ($result) {
+                $data['message'] = 'Status changed successfully';
+            }
+        }
+        wp_send_json(compact('data'));
     }
 }

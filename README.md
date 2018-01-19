@@ -30,6 +30,7 @@ use Garung\ContactForm\Facades\ContactFormManager;
 ContactFormManager::add([
     'name'   => 'subcribe', // or 'contact'
     'type'   => Type::CONTACT,
+    'style'  => 'form-1',
     'fields' => [
         [
             'label'      => 'Text',

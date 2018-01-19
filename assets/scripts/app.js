@@ -8,6 +8,8 @@ import {
 }
 from './form';
 
+import './admin'
+
 (function($) {
     let forms = [];
     $(document).find('[nf-contact]').each(function(key, item) {
