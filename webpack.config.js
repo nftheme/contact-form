@@ -15,7 +15,6 @@ module.exports = {
 			'./assets/scripts/app.js',
 			'./assets/scripts/admin.js',
 			'./assets/styles/app.scss',
-			'./assets/styles/admin.scss'
 		]
 	},
 	output: {

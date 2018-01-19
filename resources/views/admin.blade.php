@@ -43,13 +43,9 @@
                                 </td>
                             @endforeach
                             <td>
-                                @if($row->status == $status_active) 
-                                   <p class="text-success">{!! __('Contacted', 'contactmodule') !!}</p>
-                                @elseif ($row->status == $status_deactive)
-                                   <p class="text-warning">{!! __('Not contacted', 'contactmodule') !!}</p>
-                                @else 
-                                   <p class="text-danger">{!! __('Cancel', 'contactmodule') !!}</p>
-                                @endif
+                                <p class="text-success"><input class="check_status inp-check-{{ $row->id }}" type="radio" name="status_{{ $row->id }}" attr-id="{{ $row->id }}" status="1" {!! ($row->status == $status_active) ? 'checked="true"' : '' !!}> {!! __('Contacted', 'contactmodule') !!}</p>
+                                <p class="text-warning"><input class="check_status inp-check-{{ $row->id }}" type="radio" name="status_{{ $row->id }}" attr-id="{{ $row->id }}" status="0" {!! ($row->status == $status_deactive) ? 'checked="true"' : '' !!}> {!! __('Not contacted', 'contactmodule') !!}</p>
+                                <p class="text-danger"><input class="check_status inp-check-{{ $row->id }}" type="radio" name="status_{{ $row->id }}" attr-id="{{ $row->id }}" status="2" {!! ($row->status == $status_cancel) ? 'checked="true"' : '' !!}> {!! __('Cancel', 'contactmodule') !!}</p>
                             </td>
                             <td>{{ $row->created_at }}</td>
                             <td>{{ $row->updated_at }}</td>

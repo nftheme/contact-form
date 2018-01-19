@@ -1,0 +1,26 @@
+#nf-contact-form {
+	.form-1 {
+		position: relative;
+	    max-width: 350px;
+	    input.email-inp-wrap {
+		    @include border-radius( 0 );
+		    padding: 10px 15px;
+		    border: none;
+		    &:focus {
+			    background: #fff !important;
+			    border: none !important;
+			}
+		}
+		.btn-submit {
+		    position: absolute;
+		    right: 0;
+		    bottom: 0;
+		    width: 50px;
+		    color: transparent;
+		    @include border-radius( 0 );
+		    padding: 10px 15px 10px 15px;
+		    border: none;
+		    background: #27ae60 url("../images/icon-mail.png") no-repeat scroll center center;
+		}
+	}
+}

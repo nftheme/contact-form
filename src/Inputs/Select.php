@@ -69,32 +69,17 @@ class Select extends Input
         if($this->label !== '') {
             $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }
-        if($this->required) {
-            array_add($this->optionsAttributes, 'required', $this->required);
-        }
         $html .= Form::select($this->name, $this->list, $this->selected, $this->selectAttributes, $this->optionsAttributes);
         return $html;
     }
 
     private function renderSelection()
     {
-        $value = get_option($this->name);
-        $html  = '';
-        foreach ($this->options as $option) {
-            if ($value === false) {
-                if (isset($option['selected']) && $option['selected'] === true) {
-                    $html .= "<option value={$option['value']} selected>{$option['label']}</option>";
-                } else {
-                    $html .= "<option value={$option['value']}>{$option['label']}</option>";
-                }
-            } else {
-                if ($value == $option['value']) {
-                    $html .= "<option value={$option['value']} selected>{$option['label']}</option>";
-                } else {
-                    $html .= "<option value={$option['value']}>{$option['label']}</option>";
-                }
-            }
+        $html = '';
+        if($this->label !== '') {
+            $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }
+        $html .= Form::select($this->name, $this->list, $this->selected, $this->selectAttributes, $this->optionsAttributes);
         return $html;
     }
 

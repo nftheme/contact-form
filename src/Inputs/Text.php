@@ -45,21 +45,18 @@ class Text extends Input
         if($this->label !== '') {
             $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }
-        if($this->required) {
-            array_add($this->attributes, 'required', $this->required);
-        }
         $html .= Form::text($this->name, $value, $this->attributes);
         return $html;
     }
 
     public function renderMetaField()
     {
-        $html = <<<EOF
-<div class="form-group {$this->name}">
-    <label>{$this->label}</label>
-    <input type="text" class="form-control meta" name="{$this->name}">
-</div>
-EOF;
+        $value = get_option($this->name, '');
+        $html = '';
+        if($this->label !== '') {
+            $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
+        }
+        $html .= Form::text($this->name, $value, $this->attributes);
         return $html;
     }
 }

@@ -25,6 +25,12 @@ class Form
     public $type;
 
     /**
+     * [$style style for form]
+     * @var [type]
+     */
+    public $style = 'form-1';
+
+    /**
      * @param string $name
      *
      * @return self
@@ -63,5 +69,22 @@ class Form
      */
     public function getType() {
         return $this->type;
+    }
+
+    /**
+     * [setType set a string is type of page]
+     * @param string $type_page [description]
+     */
+    public function setStyle($style) {
+        $this->style = $style;
+        return $this;
+    }
+
+    /**
+     * [getStyle return style of form into config]
+     * @return string [description]
+     */
+    public function getStyle() {
+        return $this->style;
     }
 }

@@ -1,4 +1,9 @@
+@import './common/_variables';
+@import './common/_mixin';
 @import '~vicoders/dist/app.min.css';
+@import './admin/admin';
+@import './frontend/form-1';
+
 #vicoders-notify {
     position: fixed;
     top: 0px;
@@ -6,3 +11,4 @@
     width: 100%;
     z-index: 999999,
 }
+

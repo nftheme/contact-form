@@ -144,8 +144,9 @@ class ContactFormServiceProvider extends ServiceProvider
             }
             $form    = $manager->getForm($args['name']);
             $type = $form->getType();
+            $style = $form->getStyle();
             $fields = $form->fields;
-            return App::make('ContactFormView')->render('contact_form', compact('fields', 'type'));
+            return App::make('ContactFormView')->render('contact_form', compact('fields', 'type', 'style'));
         });
     }
 }

@@ -33,6 +33,7 @@ class Manager
         $page->setName($data['name']);
         $form->setName($data['name']);
         $form->setType($data['type']);
+        $form->setStyle($data['style']);
         $fields               = new Collection();
         foreach ($data['fields'] as $data) {
             $field = $this->prase($data);

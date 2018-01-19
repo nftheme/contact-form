@@ -19,10 +19,10 @@ composer require garung/contact-form-for-nftheme
 > You can add your option scheme to `functions.php`
 
 All supported type can be found here 
-- [https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Input.php](https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Input.php)
-- [https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Type.php](https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Type.php)
+- [Input](https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Input.php)
+- [Type](https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Type.php)
 
-```
+```php
 use Garung\ContactForm\Abstracts\Input;
 use Garung\ContactForm\Abstracts\Type;
 use Garung\ContactForm\Facades\ContactFormManager;
@@ -35,8 +35,8 @@ ContactFormManager::add([
             'label'      => 'Text',
             'name'       => 'firstname', // the key of option
             'type'       => Input::TEXT,
-            'required'   => true,
             'attributes' => [
+                'required'   => true,
                 'class'       => 'col-sm-6 form-control',
                 'placeholder' => 'Please fill field',
             ],
@@ -45,8 +45,8 @@ ContactFormManager::add([
             'label'      => 'Text',
             'name'       => 'lastname', // the key of option
             'type'       => Input::TEXT,
-            'required'   => true,
             'attributes' => [
+                'required'   => true,
                 'class'       => 'col-sm-6 form-control',
                 'placeholder' => 'Please fill field',
             ],
@@ -55,8 +55,8 @@ ContactFormManager::add([
             'label'      => 'Email',
             'name'       => 'email', // the key of option
             'type'       => Input::EMAIL,
-            'required'   => true,
             'attributes' => [
+                'required'   => true,
                 'class'       => 'col-sm-12 form-control',
                 'placeholder' => 'Please fill field',
             ],
@@ -65,8 +65,8 @@ ContactFormManager::add([
             'label'      => 'Phone',
             'name'       => 'phone',
             'type'       => Input::TEXT,
-            'required'   => true,
             'attributes' => [
+                'required'   => true,
                 'class'       => 'col-sm-12 form-control',
                 'placeholder' => 'Please fill field',
             ],
@@ -75,7 +75,6 @@ ContactFormManager::add([
             'label'             => 'Choose Size',
             'name'              => 'choose-size',
             'type'              => Input::SELECT,
-            'required'          => true,
             'list'              => [
                 '0'       => '--- option ---',
                 'size-l'  => 'Size L',
@@ -88,14 +87,15 @@ ContactFormManager::add([
             ],
             'optionsAttributes' => [
                 'placeholder' => 'Please fill field',
+                'required'          => true,
             ],
         ],
         [
             'label'      => 'Textarea',
             'name'       => 'textarea',
             'type'       => Input::TEXTAREA,
-            'required'   => true,
             'attributes' => [
+                'required'          => true,
                 'class'       => 'col-sm-12 form-control',
                 'placeholder' => 'Please fill field',
             ],
