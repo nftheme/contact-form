@@ -4,7 +4,7 @@
     @else
         <li class="page-item"><a class="page-link" href="{{ $prev_page_url }}" rel="prev">&laquo;</a></li>
     @endif
-    <li class="info-page-item" style="line-height: 30px;margin-right: 20px;margin-left: 20px;">{{ $page_query_param . '/' . $total }}</li>
+    <li class="info-page-item">{{ $page_query_param . '/' . $total_page }}</li>
     @if ($page_query_param >= $total)
         <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
     @else

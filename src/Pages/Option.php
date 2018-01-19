@@ -39,16 +39,18 @@ class Option extends AdminPage
             $name_tab = $current_page->name;
         }
         $page_query_param = Request::has('p') ? (int) Request::get('p') : 1;
-        $per_page         = 1;
+        $per_page         = 2;
         $type_of_name     = (!empty($name_tab)) ? $name_tab : 'contact';
         $query            = new Contact();
         $query            = $query->where('type_of_name', $type_of_name);
         $total            = $query->count();
+        $total_page       = $total/$per_page;
+
         $contact_data     = $query->skip(($page_query_param - 1) * $per_page)->take($per_page)->get();
 
         $next_page_url = PaginationHelper::getNextPageUrl($name_tab, $page_query_param, $total);
         $prev_page_url = PaginationHelper::getPreviousPageUrl($name_tab, $page_query_param);
 
-        echo view('vendor.option.admin', compact('manager', 'pages', 'current_page', 'should_flash', 'contact_data', 'status_active', 'status_deactive', 'status_cancel', 'next_page_url', 'prev_page_url', 'total', 'page_query_param'));
+        echo view('vendor.option.admin', compact('manager', 'pages', 'current_page', 'should_flash', 'contact_data', 'status_active', 'status_deactive', 'status_cancel', 'next_page_url', 'prev_page_url', 'total', 'page_query_param', 'total_page'));
     }
 }
