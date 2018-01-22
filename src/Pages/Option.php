@@ -44,7 +44,7 @@ class Option extends AdminPage
         $query            = new Contact();
         $query            = $query->where('type_of_name', $type_of_name);
         $total            = $query->count();
-        $total_page       = $total/$per_page;
+        $total_page       = round($total/$per_page);
 
         $contact_data     = $query->skip(($page_query_param - 1) * $per_page)->take($per_page)->get();
 

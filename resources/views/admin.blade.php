@@ -62,6 +62,7 @@
                     'prev_page_url' => $prev_page_url,
                     'page_query_param' => $page_query_param,
                     'total' => $total,
+                    'total_page' => $total_page
                 ];
             @endphp
             {{ view('vendor.option.pagination.default', $data) }}
