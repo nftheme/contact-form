@@ -20,8 +20,9 @@ class CreateContactTable extends NFDatabase
         if (!Capsule::Schema()->hasTable($table_name)) {
             Capsule::Schema()->create($table_name, function($table){
                 $table->increments('id');
+                $table->string('name_slug')->comment('slug name of form');
                 $table->text('data');
-                $table->string('type_of_name', 100);
+                $table->string('type', 100);
                 $table->boolean('status');
                 $table->timestamps();
             });

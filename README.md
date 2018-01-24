@@ -1,6 +1,14 @@
 ## Create contact and subcribe form easy with ContactFormModule 
  > It's an extension for our theme https://github.com/hieu-pv/nf-theme 
  
+#### Before Install
+##### Install Migrate and Form package.
+>Install Migrate and Form package is require !
+
+Refer to the instructions here: 
+- [Migrate](https://github.com/garungabc/MigrateForNFTheme)
+- [Form](https://github.com/hieu-pv/nf-form)
+
 #### Installation
 ##### Step 1: Install Through Composer
 ```
@@ -30,6 +38,7 @@ use Garung\ContactForm\Facades\ContactFormManager;
 ContactFormManager::add([
     'name'   => 'subcribe', // or 'contact'
     'type'   => Type::CONTACT,
+    'style'  => 'form-1',
     'fields' => [
         [
             'label'      => 'Text',
@@ -98,6 +107,23 @@ ContactFormManager::add([
                 'required'          => true,
                 'class'       => 'col-sm-12 form-control',
                 'placeholder' => 'Please fill field',
+            ],
+        ],
+        [
+            'name'       => 'date',
+            'type'       => Input::DATE,
+            'attributes' => [
+                'required'   => 'true',
+                'class'       => 'col-sm-12 form-control email-inp-wrap',
+                'placeholder' => __('Hãy nhập email của bạn', 'contactmodule'),
+            ],
+        ],
+        [
+            'value'       => 'Submit',
+            'type'       => Input::SUBMIT,
+            'attributes' => [
+                'class'       => 'btn btn-primary btn-submit',
+                'placeholder' => __('Hãy nhập email của bạn', 'contactmodule'),
             ],
         ],
     ],

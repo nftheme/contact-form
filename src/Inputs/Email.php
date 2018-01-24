@@ -42,10 +42,12 @@ class Email extends Input
     {
         $value = get_option($this->name, '');
         $html = '';
+        $html .= '<div class="wrap-group group-email-' . str_slug($this->name) . '">';
         if($this->label !== '') {
             $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }
         $html .= Form::email($this->name, $value, $this->attributes);
+        $html .= '</div>';
         return $html;
     }
 
@@ -53,10 +55,12 @@ class Email extends Input
     {
         $value = get_option($this->name, '');
         $html = '';
+        $html .= '<div class="wrap-group group-email-' . str_slug($this->name) . '">';
         if($this->label !== '') {
             $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }
         $html .= Form::email($this->name, $value, $this->attributes);
+        $html .= '</div>';
         return $html;
     }
 }

@@ -144,7 +144,6 @@ from 'vicoders/services';
         $(document).on('click', `.check_status`, function(){
             var attr_id = $(this).attr('attr-id');
             var status = $(this).attr('status');
-            console.log(attr_id, status);
             $.ajax({
                 method: 'POST',
                 url: ajax_obj.ajax_url,
@@ -160,6 +159,31 @@ from 'vicoders/services';
             .fail(() => {
                 notify.show('warning', response.data.message, 5000);
             });
+        });
+        $(document).on('click', `.delete-item`, function(){
+            var confirm = confirm("Press a button!");
+            if (confirm == true) {
+                var id = $(this).attr('id');
+                $.ajax({
+                    method: 'POST',
+                    url: ajax_obj.ajax_url,
+                    data: {
+                        action: 'change_status_record_contact',
+                        id: id
+                    },
+                })
+                .done((response) => {
+                    if(response.data.status == 0) {
+                        notify.show('success', response.data.message, 5000);
+                        self.location.reload();
+                    } else {
+                        notify.show('warning', response.data.message, 5000);
+                    }
+                })
+                .fail(() => {
+                    notify.show('warning', response.data.message, 5000);
+                });
+            }
         });
     }
 })(jQuery)

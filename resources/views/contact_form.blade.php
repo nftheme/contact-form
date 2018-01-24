@@ -6,6 +6,6 @@
             @endforeach
     	@endif
     	<input type="hidden" name="type" value="{{ (!empty($type)) ? $type : 'contact' }}">
-        <input type="submit" class="btn btn-primary btn-submit" value="Submit">
+    	<input type="hidden" name="name_slug" value="{{ (!empty($name_slug)) ? $name_slug : '0' }}">
     </form>
 </div>

@@ -87,4 +87,8 @@ class Form
     public function getStyle() {
         return $this->style;
     }
+
+    public function getName() {
+        return $this->name;
+    }
 }

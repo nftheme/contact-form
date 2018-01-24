@@ -6,12 +6,15 @@ use Garung\ContactForm\Constracts\InputInterface;
 
 abstract class Input implements InputInterface
 {
-    const TEXT    = 'text';
-    const EMAIL   = 'email';
-    const SELECT  = 'select';
-    const IMAGE   = 'image';
-    const GALLERY = 'gallery';
+    const TEXT     = 'text';
+    const EMAIL    = 'email';
+    const SELECT   = 'select';
+    const IMAGE    = 'image';
+    const GALLERY  = 'gallery';
     const TEXTAREA = 'textarea';
+    const DATETIME = 'datetime';
+    const DATE     = 'date';
+    const SUBMIT   = 'submit';
     /**
      * Input type
      *

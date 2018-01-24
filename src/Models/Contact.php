@@ -26,6 +26,6 @@ class Contact extends Model
      */
     protected $primary_key = 'id';
 
-    protected $fillable = ['data', 'type_of_name', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['data', 'type', 'name_slug', 'status', 'created_at', 'updated_at'];
 
 }

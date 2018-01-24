@@ -66,20 +66,24 @@ class Select extends Input
     public function render()
     {
         $html = '';
+        $html .= '<div class="wrap-group group-select-' . str_slug($this->name) . '">';
         if($this->label !== '') {
             $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }
         $html .= Form::select($this->name, $this->list, $this->selected, $this->selectAttributes, $this->optionsAttributes);
+        $html .= '</div>';
         return $html;
     }
 
     private function renderSelection()
     {
         $html = '';
+        $html .= '<div class="wrap-group group-select-' . str_slug($this->name) . '">';
         if($this->label !== '') {
             $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }
         $html .= Form::select($this->name, $this->list, $this->selected, $this->selectAttributes, $this->optionsAttributes);
+        $html .= '</div>';
         return $html;
     }
 

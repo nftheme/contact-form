@@ -20,11 +20,14 @@
                 <tr>
                     <th>#</th>
                     @foreach($current_page->fields as $field)
-                    <th>{!! $field->name !!}</th>
+                        @if($field->type !== 'submit') 
+                            <th>{!! $field->name !!}</th>
+                        @endif
                     @endforeach
                     <th>{!! __('Contact Status', 'contactmodule') !!}</th>
                     <th>{!! __('Created at', 'contactmodule') !!}</th>
                     <th>{!! __('Updated at', 'contactmodule') !!}</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -36,11 +39,13 @@
                         <tr>
                             <th scope="row">{!! $row->id !!}</th>
                             @foreach($current_page->fields as $field)
+                                @if($field->type !== 'submit') 
                                 <td>
                                 @foreach($records as $key_record => $record)
                                     {!! ($field->name == $key_record) ? $record : '' !!}
                                 @endforeach
                                 </td>
+                                @endif
                             @endforeach
                             <td>
                                 <p class="text-success"><input class="check_status inp-check-{{ $row->id }}" type="radio" name="status_{{ $row->id }}" attr-id="{{ $row->id }}" status="1" {!! ($row->status == $status_active) ? 'checked="true"' : '' !!}> {!! __('Contacted', 'contactmodule') !!}</p>
@@ -49,6 +54,7 @@
                             </td>
                             <td>{{ $row->created_at }}</td>
                             <td>{{ $row->updated_at }}</td>
+                            <td><button class="btn btn-danger delete-item" id="{{ $row->id }}">{!! __('Xóa') !!}</button></td>
                         </tr>
                     @endforeach
                 @endif

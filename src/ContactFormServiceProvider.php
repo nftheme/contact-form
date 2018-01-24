@@ -105,19 +105,22 @@ class ContactFormServiceProvider extends ServiceProvider
         add_action('admin_post_nto_save', [ContactFormManager::class, 'save']);
         add_action('wp_ajax_nto_remove', [ContactFormManager::class, 'remove']);
         add_action('wp_ajax_change_status_record_contact', [$this, 'changeStatus']);
+        add_action('wp_ajax_delete_record_contact', [$this, 'deleteRecord']);
     }
 
     public function handle()
     {
         $data['message'] = 'An error while save infomation !';
-        $request         = Request::except('action', 'type');
+        $request         = Request::except('action', 'type', 'name_slug');
         $type            = Request::only('type');
+        $name_slug       = Request::only('name_slug');
         if (!empty($request)) {
-            $contact               = new Contact();
-            $contact->data         = json_encode($request);
-            $contact->type_of_name = $type['type'];
-            $contact->status       = Contact::DEACTIVE;
-            $result                = $contact->save();
+            $contact            = new Contact();
+            $contact->data      = json_encode($request);
+            $contact->type      = $type['type'];
+            $contact->name_slug = $name_slug['name_slug'];
+            $contact->status    = Contact::DEACTIVE;
+            $result             = $contact->save();
             if ($result) {
                 $data['message'] = 'Your email is saved successfully';
             }
@@ -142,6 +145,7 @@ class ContactFormServiceProvider extends ServiceProvider
             );
         });
         add_action('wp_ajax_handle_contact_form', [$this, 'handle']);
+        add_action('wp_ajax_nopriv_handle_contact_form', [$this, 'handle']);
 
         add_shortcode('nf_contact_form', function ($args) {
 
@@ -150,11 +154,12 @@ class ContactFormServiceProvider extends ServiceProvider
             if (!isset($forms)) {
                 throw new \Exception("Please register your option scheme", 1);
             }
-            $form   = $manager->getForm($args['name']);
-            $type   = $form->getType();
-            $style  = $form->getStyle();
-            $fields = $form->fields;
-            return App::make('ContactFormView')->render('contact_form', compact('fields', 'type', 'style'));
+            $form      = $manager->getForm($args['name']);
+            $type      = $form->getType();
+            $style     = $form->getStyle();
+            $name_slug = str_slug($form->getName());
+            $fields    = $form->fields;
+            return App::make('ContactFormView')->render('contact_form', compact('fields', 'type', 'style', 'name_slug'));
         });
     }
 
@@ -187,6 +192,27 @@ class ContactFormServiceProvider extends ServiceProvider
             $result = $contact->save();
             if ($result) {
                 $data['message'] = 'Status changed successfully';
+            }
+        }
+        wp_send_json(compact('data'));
+    }
+
+    public function deleteRecord()
+    {
+        $data['message'] = 'Data not found !';
+        $data['status'] = 0;
+        $request         = Request::except('action');
+        if (!empty($request)) {
+            $id     = $request['id'];
+            if (!isset($id) || !isset($status)) {
+                $data['message'] = 'ID not undefine !';
+                wp_send_json(compact('data'));
+            }
+            $contact = Contact::find($id);
+            $result = $contact->delete();
+            if ($result) {
+                $data['message'] = 'Remove changed successfully';
+                $data['status'] = 1;
             }
         }
         wp_send_json(compact('data'));

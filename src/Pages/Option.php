@@ -39,13 +39,12 @@ class Option extends AdminPage
             $name_tab = $current_page->name;
         }
         $page_query_param = Request::has('p') ? (int) Request::get('p') : 1;
-        $per_page         = 2;
+        $per_page         = 25;
         $type_of_name     = (!empty($name_tab)) ? $name_tab : 'contact';
         $query            = new Contact();
-        $query            = $query->where('type_of_name', $type_of_name);
+        $query            = $query->where('type', $type_of_name);
         $total            = $query->count();
         $total_page       = round($total/$per_page);
-
         $contact_data     = $query->skip(($page_query_param - 1) * $per_page)->take($per_page)->get();
 
         $next_page_url = PaginationHelper::getNextPageUrl($name_tab, $page_query_param, $total);

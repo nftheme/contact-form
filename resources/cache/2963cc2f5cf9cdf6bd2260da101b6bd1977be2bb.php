@@ -7,6 +7,6 @@
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     	<?php endif; ?>
     	<input type="hidden" name="type" value="<?php echo e((!empty($type)) ? $type : 'contact'); ?>">
-        <input type="submit" class="btn btn-primary btn-submit" value="Submit">
+    	<input type="hidden" name="name_slug" value="<?php echo e((!empty($name_slug)) ? $name_slug : '0'); ?>">
     </form>
 </div>

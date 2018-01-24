@@ -5,12 +5,12 @@ namespace Garung\ContactForm\Inputs;
 use Garung\ContactForm\Abstracts\Input;
 use NightFury\Form\Facades\Form;
 
-class Text extends Input
+class Date extends Input
 {
     /**
      * {@inheritDoc}
      */
-    public $type = Input::TEXT;
+    public $type = Input::DATE;
 
     /**
      * {@inheritDoc}
@@ -30,7 +30,7 @@ class Text extends Input
     /**
      * {@inheritDoc}
      */
-    public $required = false;
+    public $format = 'd-m-Y';
 
     /**
      * {@inheritDoc}
@@ -42,11 +42,11 @@ class Text extends Input
     {
         $value = get_option($this->name, '');
         $html = '';
-        $html .= '<div class="wrap-group group-text-' . str_slug($this->name) . '">';
+        $html .= '<div class="wrap-group group-date-' . str_slug($this->name) . '">';
         if($this->label !== '') {
             $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }
-        $html .= Form::text($this->name, $value, $this->attributes);
+        $html .= Form::date($this->name, $this->format, $this->attributes);
         $html .= '</div>';
         return $html;
     }
@@ -55,11 +55,11 @@ class Text extends Input
     {
         $value = get_option($this->name, '');
         $html = '';
-        $html .= '<div class="wrap-group group-text-' . str_slug($this->name) . '">';
+        $html .= '<div class="wrap-group group-date-' . str_slug($this->name) . '">';
         if($this->label !== '') {
             $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }
-        $html .= Form::text($this->name, $value, $this->attributes);
+        $html .= Form::date($this->name, $this->format, $this->attributes);
         $html .= '</div>';
         return $html;
     }

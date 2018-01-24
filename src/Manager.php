@@ -5,10 +5,13 @@ namespace Garung\ContactForm;
 use Garung\ContactForm\Abstracts\Form;
 use Garung\ContactForm\Abstracts\Input;
 use Garung\ContactForm\Abstracts\Page;
+use Garung\ContactForm\Inputs\Date;
+use Garung\ContactForm\Inputs\DateTime;
 use Garung\ContactForm\Inputs\Email;
 use Garung\ContactForm\Inputs\Gallery;
 use Garung\ContactForm\Inputs\Image;
 use Garung\ContactForm\Inputs\Select;
+use Garung\ContactForm\Inputs\Submit;
 use Garung\ContactForm\Inputs\Text;
 use Garung\ContactForm\Inputs\Textarea;
 use Garung\ContactForm\Models\Contact;
@@ -115,6 +118,29 @@ class Manager
                 $input->name        = isset($field['name']) ? $field['name'] : $input->name;
                 $input->description = isset($field['description']) ? $field['description'] : $input->description;
                 $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                $input->attributes  = isset($field['attributes']) ? $field['attributes'] : $input->attributes;
+                break;
+            case Input::DATETIME:
+                $input              = new DateTime();
+                $input->label       = isset($field['label']) ? $field['label'] : $input->label;
+                $input->name        = isset($field['name']) ? $field['name'] : $input->name;
+                $input->description = isset($field['description']) ? $field['description'] : $input->description;
+                $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                $input->format  = isset($field['format']) ? $field['format'] : $input->format;
+                $input->attributes  = isset($field['attributes']) ? $field['attributes'] : $input->attributes;
+                break;
+            case Input::DATE:
+                $input              = new Date();
+                $input->label       = isset($field['label']) ? $field['label'] : $input->label;
+                $input->name        = isset($field['name']) ? $field['name'] : $input->name;
+                $input->description = isset($field['description']) ? $field['description'] : $input->description;
+                $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                $input->format  = isset($field['format']) ? $field['format'] : $input->format;
+                $input->attributes  = isset($field['attributes']) ? $field['attributes'] : $input->attributes;
+                break;
+            case Input::SUBMIT:
+                $input              = new Submit();
+                $input->value        = isset($field['value']) ? $field['value'] : $input->value;
                 $input->attributes  = isset($field['attributes']) ? $field['attributes'] : $input->attributes;
                 break;
             default:
