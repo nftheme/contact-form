@@ -92,7 +92,7 @@ class ContactFormServiceProvider extends ServiceProvider
                 'admin-contact-scripts',
                 wp_slash(get_stylesheet_directory_uri() . '/vendor/garung/contact-form-for-nftheme/assets/dist/app.js'),
                 'jquery',
-                '1.0.1',
+                '1.0.3',
                 true
             );
             $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
@@ -165,13 +165,13 @@ class ContactFormServiceProvider extends ServiceProvider
 
     public function changeStatus()
     {
-        $data['message'] = 'Data not found !';
+        $data['message'] = 'Không tìm thấy dữ liệu !';
         $request         = Request::except('action');
         if (!empty($request)) {
             $id     = $request['id'];
             $status = $request['status'];
             if (!isset($id) || !isset($status)) {
-                $data['message'] = 'ID or Status not undefine !';
+                $data['message'] = 'ID hoặc Status không được khai báo !';
                 wp_send_json(compact('data'));
             }
             $contact = Contact::find($id);
@@ -191,7 +191,7 @@ class ContactFormServiceProvider extends ServiceProvider
             }
             $result = $contact->save();
             if ($result) {
-                $data['message'] = 'Status changed successfully';
+                $data['message'] = 'Thay đổi trạng thái thành công';
             }
         }
         wp_send_json(compact('data'));
@@ -199,19 +199,19 @@ class ContactFormServiceProvider extends ServiceProvider
 
     public function deleteRecord()
     {
-        $data['message'] = 'Data not found !';
+        $data['message'] = 'Xóa không thành công !';
         $data['status'] = 0;
         $request         = Request::except('action');
         if (!empty($request)) {
-            $id     = $request['id'];
-            if (!isset($id) || !isset($status)) {
-                $data['message'] = 'ID not undefine !';
+            $id     = (int)$request['id'];
+            if (!isset($id)) {
+                $data['message'] = 'Không tìm thấy địa chỉ bản ghi !';
                 wp_send_json(compact('data'));
             }
             $contact = Contact::find($id);
             $result = $contact->delete();
             if ($result) {
-                $data['message'] = 'Remove changed successfully';
+                $data['message'] = 'Xóa bản ghi thành công';
                 $data['status'] = 1;
             }
         }
