@@ -40,7 +40,6 @@ class Date extends Input
 
     public function render()
     {
-        $value = get_option($this->name, '');
         $html = '';
         $html .= '<div class="wrap-group group-date-' . str_slug($this->name) . '">';
         if($this->label !== '') {
@@ -53,7 +52,6 @@ class Date extends Input
 
     public function renderMetaField()
     {
-        $value = get_option($this->name, '');
         $html = '';
         $html .= '<div class="wrap-group group-date-' . str_slug($this->name) . '">';
         if($this->label !== '') {

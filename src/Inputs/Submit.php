@@ -25,15 +25,13 @@ class Submit extends Input
 
     public function render()
     {
-        $value = get_option($this->value, '');
-        $html = Form::submit($value, $this->attributes);
+        $html = Form::submit($this->value, $this->attributes);
         return $html;
     }
 
     public function renderMetaField()
     {
-        $value = get_option($this->value, '');
-        $html = Form::submit($value, $this->attributes);
+        $html = Form::submit($this->value, $this->attributes);
         return $html;
     }
 }

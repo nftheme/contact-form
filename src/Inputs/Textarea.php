@@ -3,6 +3,7 @@
 namespace Garung\ContactForm\Inputs;
 
 use Garung\ContactForm\Abstracts\Input;
+use NightFury\Form\Facades\Form;
 
 class Textarea extends Input
 {
@@ -40,32 +41,26 @@ class Textarea extends Input
     public function render()
     {
         $value = get_option($this->name, '');
-        if ($this->required) {
-            $html = <<<EOF
-<div class="form-group {$this->name}">
-    <label>{$this->label}</label>
-    <textarea class="form-control" name="{$this->name}" required>{$value}</textarea>
-</div>
-EOF;
-        } else {
-            $html = <<<EOF
-<div class="form-group {$this->name}">
-    <label>{$this->label}</label>
-    <textarea class="form-control" name="{$this->name}">{$value}</textarea>
-</div>
-EOF;
+        $html = '';
+        $html .= '<div class="wrap-group group-textarea-' . str_slug($this->name) . '">';
+        if($this->label !== '') {
+            $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }
+        $html .= Form::textarea($this->name, $value, $this->attributes);
+        $html .= '</div>';
         return $html;
     }
 
     public function renderMetaField()
     {
-        $html = <<<EOF
-<div class="form-group {$this->name}">
-    <label>{$this->label}</label>
-    <textarea class="form-control meta" name="{$this->name}"></textarea>
-</div>
-EOF;
+        $value = get_option($this->name, '');
+        $html = '';
+        $html .= '<div class="wrap-group group-textarea-' . str_slug($this->name) . '">';
+        if($this->label !== '') {
+            $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
+        }
+        $html .= Form::textarea($this->name, $value, $this->attributes);
+        $html .= '</div>';
         return $html;
     }
 }

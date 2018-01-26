@@ -36,13 +36,13 @@ class Option extends AdminPage
             delete_option(Manager::NTO_SAVED_SUCCESSED);
         }
         if(empty($name_tab)) {
-            $name_tab = $current_page->name;
+            $name_tab = str_slug($current_page->name);
         }
         $page_query_param = Request::has('p') ? (int) Request::get('p') : 1;
         $per_page         = 25;
-        $type_of_name     = (!empty($name_tab)) ? $name_tab : 'contact';
+        $type_of_name     = $name_tab;
         $query            = new Contact();
-        $query            = $query->where('type', $type_of_name);
+        $query            = $query->where('name_slug', $name_tab);
         $total            = $query->count();
         $total_page       = round($total/$per_page);
         $contact_data     = $query->skip(($page_query_param - 1) * $per_page)->take($per_page)->get();
