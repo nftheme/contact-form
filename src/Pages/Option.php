@@ -2,19 +2,22 @@
 
 namespace Garung\ContactForm\Pages;
 
+use Carbon\Carbon;
 use Garung\ContactForm\Abstracts\AdminPage;
 use Garung\ContactForm\Facades\PaginationHelper;
 use Garung\ContactForm\Manager;
 use Garung\ContactForm\Models\Contact;
+use Garung\ContactForm\Models\Status;
 use League\Flysystem\Exception;
 use NF\Facades\App;
+use NF\Facades\Log;
 use NF\Facades\Request;
 
 class Option extends AdminPage
 {
-    public $page_title = 'Contact Manager';
+    public $page_title = 'Form Manager';
 
-    public $menu_title = 'Contact Manager';
+    public $menu_title = 'Form Manager';
 
     public $menu_slug = Manager::MENU_SLUG;
 
@@ -28,9 +31,6 @@ class Option extends AdminPage
         }
         $current_page    = $manager->getPage(Request::get('tab'));
         $should_flash    = false;
-        $status_active   = Contact::ACTIVE;
-        $status_deactive = Contact::DEACTIVE;
-        $status_cancel   = Contact::CANCEL;
         if (get_option(Manager::NTO_SAVED_SUCCESSED) !== false) {
             $should_flash = true;
             delete_option(Manager::NTO_SAVED_SUCCESSED);
@@ -45,11 +45,19 @@ class Option extends AdminPage
         $query            = $query->where('name_slug', $name_tab);
         $total            = $query->count();
         $total_page       = round($total/$per_page);
+        if($total_page <= 0) {
+            $total_page = 1;
+        }
         $contact_data     = $query->skip(($page_query_param - 1) * $per_page)->take($per_page)->get();
-
+        $contact_data = $contact_data->map(function($item){
+            $item->created = Carbon::createFromFormat('Y-m-d H:i:s', $item->created_at)->format('l, d-m-Y');
+            $item->updated = Carbon::createFromFormat('Y-m-d H:i:s', $item->updated_at)->format('l, d-m-Y');
+            return $item;
+        });
+        $list_status = Status::where('form_name', $name_tab)->get();
         $next_page_url = PaginationHelper::getNextPageUrl($name_tab, $page_query_param, $total);
         $prev_page_url = PaginationHelper::getPreviousPageUrl($name_tab, $page_query_param);
 
-        echo view('vendor.option.admin', compact('manager', 'pages', 'current_page', 'should_flash', 'contact_data', 'status_active', 'status_deactive', 'status_cancel', 'next_page_url', 'prev_page_url', 'total', 'page_query_param', 'total_page'));
+        echo view('vendor.option.admin', compact('manager', 'pages', 'current_page', 'should_flash', 'contact_data', 'next_page_url', 'prev_page_url', 'total', 'page_query_param', 'total_page', 'list_status'));
     }
 }

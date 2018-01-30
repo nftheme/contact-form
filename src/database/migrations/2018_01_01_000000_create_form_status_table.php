@@ -4,9 +4,9 @@ use Garung\Database\Connect\NFDatabase;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateContactTable extends NFDatabase
+class CreateFormStatusTable extends NFDatabase
 {
-    public $table = 'contact';
+    public $table = 'form_status';
 
     public function __construct()
     {
@@ -20,10 +20,10 @@ class CreateContactTable extends NFDatabase
         if (!Capsule::Schema()->hasTable($table_name)) {
             Capsule::Schema()->create($table_name, function($table){
                 $table->increments('id');
-                $table->string('name_slug')->comment('slug name of form');
-                $table->text('data');
-                $table->string('type', 100);
-                $table->integer('curr_status_id');
+                $table->integer('status_id');
+                $table->string('form_name', 150)->comment('slug name of form');
+                $table->string('name', 100);
+                $table->boolean('is_default');
                 $table->timestamps();
             });
         }       

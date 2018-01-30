@@ -2,6 +2,7 @@
 
 namespace Garung\ContactForm\Models;
 
+use Garung\ContactForm\Models\Status;
 use NF\Models\Model;
 
 /**
@@ -28,4 +29,7 @@ class Contact extends Model
 
     protected $fillable = ['data', 'type', 'name_slug', 'status', 'created_at', 'updated_at'];
 
+    public function status() {
+        return $this->belongsTo(Status::class, 'status_id');
+    }
 }

@@ -31,6 +31,12 @@ class Form
     public $style = 'form-1';
 
     /**
+     * [$status status for records in admin page]
+     * @var array
+     */
+    public $status = 0;
+
+    /**
      * @param string $name
      *
      * @return self
@@ -90,5 +96,22 @@ class Form
 
     public function getName() {
         return $this->name;
+    }
+
+    /**
+     * [setStatus description]
+     * @param array $status [description]
+     */
+    public function setInitStatus($status) {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * [getStatus description]
+     * @return array [description]
+     */
+    public function getStatus() {
+        return $this->status;
     }
 }

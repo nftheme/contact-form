@@ -19,14 +19,14 @@
             <thead>
                 <tr>
                     <th>#</th>
+                    <th>{!! __('Trạng thái', 'contactmodule') !!}</th>
                     @foreach($current_page->fields as $field)
                         @if($field->type !== 'submit') 
                             <th>{!! $field->name !!}</th>
                         @endif
                     @endforeach
-                    <th>{!! __('Contact Status', 'contactmodule') !!}</th>
-                    <th>{!! __('Created at', 'contactmodule') !!}</th>
-                    <th>{!! __('Updated at', 'contactmodule') !!}</th>
+                    <th>{!! __('Ngày tạo', 'contactmodule') !!}</th>
+                    <th>{!! __('Ngày cập nhật', 'contactmodule') !!}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -38,6 +38,13 @@
                     @endphp
                         <tr>
                             <th scope="row">{!! $row->id !!}</th>
+                            <td>
+                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" attr-id="{!! $row->id !!}">
+                                    <option value="1" {!! ($row->status == $status_active) ? 'selected' : '' !!}>Contacted</option>
+                                    <option value="0" {!! ($row->status == $status_deactive) ? 'selected' : '' !!}>Not contacted</option>
+                                    <option value="2" {!! ($row->status == $status_cancel) ? 'selected' : '' !!}>Cancel</option>
+                                </select>
+                            </td>
                             @foreach($current_page->fields as $field)
                                 @if($field->type !== 'submit') 
                                 <td>
@@ -47,14 +54,9 @@
                                 </td>
                                 @endif
                             @endforeach
-                            <td>
-                                <p class="text-success"><input class="check_status inp-check-{{ $row->id }}" type="radio" name="status_{{ $row->id }}" attr-id="{{ $row->id }}" status="1" {!! ($row->status == $status_active) ? 'checked="true"' : '' !!}> {!! __('Contacted', 'contactmodule') !!}</p>
-                                <p class="text-warning"><input class="check_status inp-check-{{ $row->id }}" type="radio" name="status_{{ $row->id }}" attr-id="{{ $row->id }}" status="0" {!! ($row->status == $status_deactive) ? 'checked="true"' : '' !!}> {!! __('Not contacted', 'contactmodule') !!}</p>
-                                <p class="text-danger"><input class="check_status inp-check-{{ $row->id }}" type="radio" name="status_{{ $row->id }}" attr-id="{{ $row->id }}" status="2" {!! ($row->status == $status_cancel) ? 'checked="true"' : '' !!}> {!! __('Cancel', 'contactmodule') !!}</p>
-                            </td>
-                            <td>{{ $row->created_at }}</td>
-                            <td>{{ $row->updated_at }}</td>
-                            <td><button class="btn btn-danger delete-item" id="{{ $row->id }}">{!! __('Xóa') !!}</button></td>
+                            <td>{{ $row->created }}</td>
+                            <td>{{ $row->updated }}</td>
+                            <td><button class="btn btn-danger delete-item nopadding" id="{{ $row->id }}"><span class="dashicons dashicons-no-alt"></span></button></td>
                         </tr>
                     @endforeach
                 @endif

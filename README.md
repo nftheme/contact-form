@@ -23,7 +23,14 @@ composer require garung/contact-form-for-nftheme
         \Garung\ContactForm\ContactFormServiceProvider::class
     ],
 ```
-##### Step 3: Register your option scheme
+##### Step 3: Run migrate command
+> Run `php command migrate` command to create table
+
+```php
+php command migrate
+```
+
+##### Step 4: Register your option scheme
 > You can add your option scheme to `functions.php`
 
 All supported type can be found here 
@@ -36,9 +43,31 @@ use Garung\ContactForm\Abstracts\Type;
 use Garung\ContactForm\Facades\ContactFormManager;
 
 ContactFormManager::add([
-    'name'   => 'subcribe', // or 'contact'
+    'name'   => 'subcribe name'
     'type'   => Type::CONTACT,
     'style'  => 'form-1',
+    'status' => [
+        [
+            'id' => 1,
+            'name' => 'pending',
+            'is_default' => true
+        ],
+        [
+            'id' => 2,
+            'name' => 'confirmed',
+            'is_default' => false
+        ],
+        [
+            'id' => 3,
+            'name' => 'cancel',
+            'is_default' => false
+        ],
+        [
+            'id' => 4,
+            'name' => 'complete',
+            'is_default' => false
+        ]
+    ],
     'fields' => [
         [
             'label'      => 'Text',
@@ -130,7 +159,7 @@ ContactFormManager::add([
 ]);
 ```
 
-##### Step 4: Add shortcode
+##### Step 5: Add shortcode
 > Automatic create a shortcode name `nf_contact_form` with a attribute `name` is require:
 
 ```php
@@ -142,7 +171,7 @@ Example:
 [nf_contact_form name="Contact"]
 ```
 
-##### Step 5: Insert shortcode wherever you need
+##### Step 6: Insert shortcode wherever you need
 > Very easy
 ```php
 do_shortcode("[nf_contact_form name='Contact']")

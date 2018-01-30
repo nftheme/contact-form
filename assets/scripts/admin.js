@@ -141,9 +141,9 @@ from 'vicoders/services';
             });
         });
 
-        $(document).on('click', `.check_status`, function(){
+        $(document).on('change', `.custom-select`, function(){
             var attr_id = $(this).attr('attr-id');
-            var status = $(this).attr('status');
+            var status = $(this).val();
             $.ajax({
                 method: 'POST',
                 url: ajax_obj.ajax_url,
@@ -157,7 +157,7 @@ from 'vicoders/services';
                 notify.show('success', response.data.message, 5000)
             })
             .fail(() => {
-                notify.show('warning', response.data.message, 5000);
+                notify.show('warning', response.data.message, 5001);
             });
         });
         $(document).on('click', `.delete-item`, function(){

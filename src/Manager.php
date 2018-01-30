@@ -15,6 +15,7 @@ use Garung\ContactForm\Inputs\Submit;
 use Garung\ContactForm\Inputs\Text;
 use Garung\ContactForm\Inputs\Textarea;
 use Garung\ContactForm\Models\Contact;
+use Garung\ContactForm\Models\Status;
 use Illuminate\Support\Collection;
 use NF\Facades\App;
 use NF\Facades\Request;
@@ -37,6 +38,38 @@ class Manager
         $form->setName($data['name']);
         $form->setType($data['type']);
         $form->setStyle($data['style']);
+        if(!empty($data['status'])) {
+            $flag = false;
+            $init_status = 0;
+            foreach ($data['status'] as $key => $item) {
+                if(!$flag) {
+                    $init_status = $data['status'][0]['id'];
+                }
+                if($item['is_default']) {
+                    $init_status = $item['id'];
+                    $flag = true;
+                }
+                $status = Status::where('status_id', $item['id'])->where('form_name', str_slug($data['name']))->first();
+                if(!$status) {
+                    $status = new Status();
+                    $status->status_id = $item['id'];
+                    $status->form_name = str_slug($data['name']);
+                    $status->name = $item['name'];
+                    $status->is_default = $item['is_default'];
+                    $save_status = $status->save();
+                    if(!$save_status) {
+                        throw new \Exception(__("Can't save status"), 5000);
+                    }
+                } else {
+                    $status->status_id = $item['id'];
+                    $status->form_name = str_slug($data['name']);
+                    $status->name = $item['name'];
+                    $status->is_default = $item['is_default'];
+                    $save_status = $status->save();
+                }
+            }
+            $form->setInitStatus($init_status);
+        }
         $fields               = new Collection();
         foreach ($data['fields'] as $data) {
             $field = $this->prase($data);

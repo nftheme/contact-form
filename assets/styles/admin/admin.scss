@@ -169,4 +169,16 @@
             margin-left: 20px;
         }
     }
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+    select.custom-select {
+        // width: 60%;
+    }
+    .nopadding {
+        padding: 0;
+    }
 }
