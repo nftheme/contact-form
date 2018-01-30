@@ -19,14 +19,14 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>{!! __('Trạng thái', 'contactmodule') !!}</th>
+                    <th>{!! __('Status', 'contactmodule') !!}</th>
                     @foreach($current_page->fields as $field)
                         @if($field->type !== 'submit') 
                             <th>{!! $field->name !!}</th>
                         @endif
                     @endforeach
-                    <th>{!! __('Ngày tạo', 'contactmodule') !!}</th>
-                    <th>{!! __('Ngày cập nhật', 'contactmodule') !!}</th>
+                    <th>{!! __('Created date', 'contactmodule') !!}</th>
+                    <th>{!! __('Updated date', 'contactmodule') !!}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -40,9 +40,9 @@
                             <th scope="row">{!! $row->id !!}</th>
                             <td>
                                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" attr-id="{!! $row->id !!}">
-                                    <option value="1" {!! ($row->status == $status_active) ? 'selected' : '' !!}>Contacted</option>
-                                    <option value="0" {!! ($row->status == $status_deactive) ? 'selected' : '' !!}>Not contacted</option>
-                                    <option value="2" {!! ($row->status == $status_cancel) ? 'selected' : '' !!}>Cancel</option>
+                                    @foreach($list_status as $key => $item)
+                                        <option value="{{ $item->status_id }}" {!! ($row->curr_status_id == $item->status_id) ? 'selected' : '' !!}>{!! $item->name !!}</option>
+                                    @endforeach
                                 </select>
                             </td>
                             @foreach($current_page->fields as $field)
