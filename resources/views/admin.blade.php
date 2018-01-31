@@ -5,7 +5,7 @@
         </div>
     @endif
     <div class="nto-header">
-        <h4 class="nto-title bd-title">Contact Manager</h4>
+        <h4 class="nto-title bd-title">Form Manager</h4>
         <ul class="nto-tabs nav nav-tabs">
             @foreach($pages as $page)
             <li class="nto-item nav-item">
@@ -15,6 +15,19 @@
         </ul>
     </div>
     <div class="nto-content">
+        <form id="contactfilter" method="get" action="">
+            <input type="hidden" name="page" value="{{ $param_page }}">
+            <input type="hidden" name="tab" value="{{ $name_tab }}">
+            <div class="col-xs-4 actions">
+                <select class="custom-select-filter" name="statusfilter">
+                    <option value="-1">All</option>
+                    @foreach($list_status as $key => $item)
+                        <option value="{{ $item['id'] }}" {!! (!empty($statusfilter) && ($item['id'] == $statusfilter)) ? 'selected' : '' !!}>{!! $item['name'] !!}</option>
+                    @endforeach
+                </select>
+                <input type="submit" class="button" value="{!! __('filter', 'contactmodule') !!}">
+            </div>
+        </form>
         <table class="table table-bordered table-striped contact-module-table">
             <thead>
                 <tr>
@@ -41,7 +54,7 @@
                             <td>
                                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" attr-id="{!! $row->id !!}">
                                     @foreach($list_status as $key => $item)
-                                        <option value="{{ $item->status_id }}" {!! ($row->curr_status_id == $item->status_id) ? 'selected' : '' !!}>{!! $item->name !!}</option>
+                                        <option value="{{ $item['id'] }}" {!! ($row->status == $item['id']) ? 'selected' : '' !!}>{!! $item['name'] !!}</option>
                                     @endforeach
                                 </select>
                             </td>

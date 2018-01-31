@@ -34,7 +34,13 @@ class Form
      * [$status status for records in admin page]
      * @var array
      */
-    public $status = 0;
+    public $status = [];
+
+    /**
+     * [$init_status init value of status ]
+     * @var integer
+     */
+    public $init_status = 0;
 
     /**
      * @param string $name
@@ -102,7 +108,7 @@ class Form
      * [setStatus description]
      * @param array $status [description]
      */
-    public function setInitStatus($status) {
+    public function setStatus($status) {
         $this->status = $status;
         return $this;
     }
@@ -113,5 +119,22 @@ class Form
      */
     public function getStatus() {
         return $this->status;
+    }
+
+    /**
+     * [setInitStatus description]
+     * @param [type] $init_status [description]
+     */
+    public function setInitStatus($init_status) {
+        $this->init_status = $init_status;
+        return $this;
+    }
+
+    /**
+     * [getInitStatus description]
+     * @return integer [description]
+     */
+    public function getInitStatus() {
+        return $this->init_status;
     }
 }

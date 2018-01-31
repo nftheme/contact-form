@@ -14,10 +14,7 @@ use Garung\ContactForm\Inputs\Select;
 use Garung\ContactForm\Inputs\Submit;
 use Garung\ContactForm\Inputs\Text;
 use Garung\ContactForm\Inputs\Textarea;
-use Garung\ContactForm\Models\Contact;
-use Garung\ContactForm\Models\Status;
 use Illuminate\Support\Collection;
-use NF\Facades\App;
 use NF\Facades\Request;
 
 class Manager
@@ -32,45 +29,28 @@ class Manager
     public function add($data)
     {
         $this->type = $data['type'];
-        $page = new Page();
-        $form = new Form();
+        $page       = new Page();
+        $form       = new Form();
         $page->setName($data['name']);
         $form->setName($data['name']);
         $form->setType($data['type']);
         $form->setStyle($data['style']);
-        if(!empty($data['status'])) {
-            $flag = false;
+        $form->setStatus($data['status']);
+        if (!empty($data['status'])) {
+            $flag        = false;
             $init_status = 0;
             foreach ($data['status'] as $key => $item) {
-                if(!$flag) {
+                if (!$flag) {
                     $init_status = $data['status'][0]['id'];
                 }
-                if($item['is_default']) {
+                if ($item['is_default']) {
                     $init_status = $item['id'];
-                    $flag = true;
-                }
-                $status = Status::where('status_id', $item['id'])->where('form_name', str_slug($data['name']))->first();
-                if(!$status) {
-                    $status = new Status();
-                    $status->status_id = $item['id'];
-                    $status->form_name = str_slug($data['name']);
-                    $status->name = $item['name'];
-                    $status->is_default = $item['is_default'];
-                    $save_status = $status->save();
-                    if(!$save_status) {
-                        throw new \Exception(__("Can't save status"), 5000);
-                    }
-                } else {
-                    $status->status_id = $item['id'];
-                    $status->form_name = str_slug($data['name']);
-                    $status->name = $item['name'];
-                    $status->is_default = $item['is_default'];
-                    $save_status = $status->save();
+                    $flag        = true;
                 }
             }
             $form->setInitStatus($init_status);
         }
-        $fields               = new Collection();
+        $fields = new Collection();
         foreach ($data['fields'] as $data) {
             $field = $this->prase($data);
             if ($field->is(Input::GALLERY) && isset($data['meta']) && is_array($data['meta'])) {
@@ -159,7 +139,7 @@ class Manager
                 $input->name        = isset($field['name']) ? $field['name'] : $input->name;
                 $input->description = isset($field['description']) ? $field['description'] : $input->description;
                 $input->required    = isset($field['required']) ? $field['required'] : $input->required;
-                $input->format  = isset($field['format']) ? $field['format'] : $input->format;
+                $input->format      = isset($field['format']) ? $field['format'] : $input->format;
                 $input->attributes  = isset($field['attributes']) ? $field['attributes'] : $input->attributes;
                 break;
             case Input::DATE:
@@ -168,13 +148,13 @@ class Manager
                 $input->name        = isset($field['name']) ? $field['name'] : $input->name;
                 $input->description = isset($field['description']) ? $field['description'] : $input->description;
                 $input->required    = isset($field['required']) ? $field['required'] : $input->required;
-                $input->format  = isset($field['format']) ? $field['format'] : $input->format;
+                $input->format      = isset($field['format']) ? $field['format'] : $input->format;
                 $input->attributes  = isset($field['attributes']) ? $field['attributes'] : $input->attributes;
                 break;
             case Input::SUBMIT:
-                $input              = new Submit();
-                $input->value        = isset($field['value']) ? $field['value'] : $input->value;
-                $input->attributes  = isset($field['attributes']) ? $field['attributes'] : $input->attributes;
+                $input             = new Submit();
+                $input->value      = isset($field['value']) ? $field['value'] : $input->value;
+                $input->attributes = isset($field['attributes']) ? $field['attributes'] : $input->attributes;
                 break;
             default:
                 throw new \Exception("Can not prase input field", 1);
@@ -187,7 +167,7 @@ class Manager
     {
         return get_admin_url() . 'admin.php?page=' . self::MENU_SLUG . '&tab=' . str_slug($name);
     }
-    
+
     /**
      * Retrievie the list of pages
      *
@@ -329,5 +309,41 @@ class Manager
         }
         $redirect_url = $this->getTabUrl(Request::get('page'));
         wp_send_json(['success' => true, 'redirect_url' => $redirect_url]);
+    }
+
+    public function getCurrentUrl()
+    {
+        $scheme = $_SERVER['SERVER_PORT'] == 80 ? 'http' : 'https';
+        $url    = $scheme . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        return $url;
+    }
+
+    public function modify_url($mod, $url = false)
+    {
+        // If $url wasn't passed in, use the current url
+        if ($url == false) {
+            $scheme = $_SERVER['SERVER_PORT'] == 80 ? 'http' : 'https';
+            $url    = $scheme . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        }
+
+        // Parse the url into pieces
+        $url_array = parse_url($url);
+
+        // The original URL had a query string, modify it.
+        if (!empty($url_array['query'])) {
+            parse_str($url_array['query'], $query_array);
+            foreach ($mod as $key => $value) {
+                if (!empty($query_array[$key])) {
+                    $query_array[$key] = $value;
+                }
+            }
+        }
+
+        // The original URL didn't have a query string, add it.
+        else {
+            $query_array = $mod;
+        }
+
+        return $url_array['scheme'] . '://' . $url_array['host'] . '/' . $url_array['path'] . '?' . http_build_query($query_array);
     }
 }

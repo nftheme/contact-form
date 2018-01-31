@@ -23,7 +23,7 @@ class CreateContactTable extends NFDatabase
                 $table->string('name_slug')->comment('slug name of form');
                 $table->text('data');
                 $table->string('type', 100);
-                $table->integer('curr_status_id');
+                $table->integer('status');
                 $table->timestamps();
             });
         }       
