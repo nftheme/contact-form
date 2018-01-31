@@ -10,6 +10,7 @@ use Garung\ContactForm\Inputs\DateTime;
 use Garung\ContactForm\Inputs\Email;
 use Garung\ContactForm\Inputs\Gallery;
 use Garung\ContactForm\Inputs\Image;
+use Garung\ContactForm\Inputs\Number;
 use Garung\ContactForm\Inputs\Select;
 use Garung\ContactForm\Inputs\Submit;
 use Garung\ContactForm\Inputs\Text;
@@ -83,6 +84,14 @@ class Manager
         switch ($field['type']) {
             case Input::TEXT:
                 $input              = new Text();
+                $input->label       = isset($field['label']) ? $field['label'] : $input->label;
+                $input->name        = isset($field['name']) ? $field['name'] : $input->name;
+                $input->description = isset($field['description']) ? $field['description'] : $input->description;
+                $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                $input->attributes  = isset($field['attributes']) ? $field['attributes'] : $input->attributes;
+                break;
+            case Input::NUMBER:
+                $input              = new Number();
                 $input->label       = isset($field['label']) ? $field['label'] : $input->label;
                 $input->name        = isset($field['name']) ? $field['name'] : $input->name;
                 $input->description = isset($field['description']) ? $field['description'] : $input->description;

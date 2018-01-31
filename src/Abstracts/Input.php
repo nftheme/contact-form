@@ -7,6 +7,7 @@ use Garung\ContactForm\Constracts\InputInterface;
 abstract class Input implements InputInterface
 {
     const TEXT     = 'text';
+    const NUMBER   = 'number';
     const EMAIL    = 'email';
     const SELECT   = 'select';
     const IMAGE    = 'image';

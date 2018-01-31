@@ -124,7 +124,7 @@ class ContactFormServiceProvider extends ServiceProvider
             $contact->status    = $status['status'];
             $result             = $contact->save();
             if ($result) {
-                $data['message'] = 'Data is saved successfully';
+                $data['message'] = 'Your infomation is sent';
             }
         }
         wp_send_json(compact('data'));
