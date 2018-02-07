@@ -1,0 +1,22 @@
+@import './common/_variables';
+@import './common/_mixin';
+@import '~vicoders/dist/app.min.css';
+@import './admin/admin';
+@import './frontend/form-1';
+@import './frontend/form-2';
+
+#vicoders-notify {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 999999,
+}
+
+.pagination {
+	.info-page-item {
+		line-height: 30px;
+		margin-right: 20px;
+		margin-left: 20px;
+	}
+}
