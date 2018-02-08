@@ -159,6 +159,8 @@ ContactFormManager::add([
 ]);
 ```
 
+Notice: If `selected` attribute of Input::SELECT don't set, it'll automation check title of current page with items in list which you set at `list` attribute.
+
 ##### Step 5: Add shortcode
 > Automatic create a shortcode name `nf_contact_form` with a attribute `name` is require:
 
