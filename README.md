@@ -12,7 +12,7 @@ Refer to the instructions here:
 #### Installation
 ##### Step 1: Install Through Composer
 ```
-composer require garung/contact-form-for-nftheme
+composer require vicoders/contact-form-for-nftheme
 ```
 ##### Step 2: Add the Service Provider
 > Open `config/app.php` and register the required service provider.
@@ -20,7 +20,7 @@ composer require garung/contact-form-for-nftheme
 ```php
   'providers'  => [
         // .... Others providers 
-        \Garung\ContactForm\ContactFormServiceProvider::class
+        \Vicoders\ContactForm\ContactFormServiceProvider::class
     ],
 ```
 ##### Step 3: Run migrate command
@@ -38,9 +38,9 @@ All supported type can be found here
 - [Type](https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Type.php)
 
 ```php
-use Garung\ContactForm\Abstracts\Input;
-use Garung\ContactForm\Abstracts\Type;
-use Garung\ContactForm\Facades\ContactFormManager;
+use Vicoders\ContactForm\Abstracts\Input;
+use Vicoders\ContactForm\Abstracts\Type;
+use Vicoders\ContactForm\Facades\ContactFormManager;
 
 ContactFormManager::add([
     'name'   => 'subcribe name'

@@ -1,9 +1,9 @@
 <?php
 
-namespace Garung\ContactForm\Facades;
+namespace Vicoders\ContactForm\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Garung\ContactForm\Manager;
+use Vicoders\ContactForm\Manager;
 
 class ContactFormManager extends Facade
 {

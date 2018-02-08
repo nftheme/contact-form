@@ -1,8 +1,8 @@
 <?php
 
-namespace Garung\ContactForm\Inputs;
+namespace Vicoders\ContactForm\Inputs;
 
-use Garung\ContactForm\Abstracts\Input;
+use Vicoders\ContactForm\Abstracts\Input;
 use NightFury\Form\Facades\Form;
 
 class Email extends Input

@@ -1,8 +1,8 @@
 <?php
 
-namespace Garung\ContactForm\Abstracts;
+namespace Vicoders\ContactForm\Abstracts;
 
-use Garung\ContactForm\Constracts\InputInterface;
+use Vicoders\ContactForm\Constracts\InputInterface;
 
 abstract class Input implements InputInterface
 {

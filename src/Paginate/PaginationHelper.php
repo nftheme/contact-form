@@ -1,7 +1,7 @@
 <?php 
-namespace Garung\ContactForm\Paginate;
+namespace Vicoders\ContactForm\Paginate;
 
-use Garung\ContactForm\Manager;
+use Vicoders\ContactForm\Manager;
 use NF\Facades\Request;
 
 class PaginationHelper

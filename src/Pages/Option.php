@@ -1,12 +1,12 @@
 <?php
 
-namespace Garung\ContactForm\Pages;
+namespace Vicoders\ContactForm\Pages;
 
 use Carbon\Carbon;
-use Garung\ContactForm\Abstracts\AdminPage;
-use Garung\ContactForm\Facades\PaginationHelper;
-use Garung\ContactForm\Manager;
-use Garung\ContactForm\Models\Contact;
+use Vicoders\ContactForm\Abstracts\AdminPage;
+use Vicoders\ContactForm\Facades\PaginationHelper;
+use Vicoders\ContactForm\Manager;
+use Vicoders\ContactForm\Models\Contact;
 use League\Flysystem\Exception;
 use NF\Facades\App;
 use NF\Facades\Request;

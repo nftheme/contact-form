@@ -1,6 +1,6 @@
 <?php
 
-namespace Garung\ContactForm\Services;
+namespace Vicoders\ContactForm\Services;
 
 class View
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Garung\ContactForm\Models;
+namespace Vicoders\ContactForm\Models;
 
-use Garung\ContactForm\Models\Status;
+use Vicoders\ContactForm\Models\Status;
 use NF\Models\Model;
 
 /**

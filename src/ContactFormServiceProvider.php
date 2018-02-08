@@ -1,12 +1,12 @@
 <?php
 
-namespace Garung\ContactForm;
+namespace Vicoders\ContactForm;
 
-use Garung\ContactForm\Console\PublishCommand;
-use Garung\ContactForm\Facades\ContactFormManager;
-use Garung\ContactForm\Models\Contact;
-use Garung\ContactForm\Pages\Option;
-use Garung\ContactForm\Paginate\PaginationHelper;
+use Vicoders\ContactForm\Console\PublishCommand;
+use Vicoders\ContactForm\Facades\ContactFormManager;
+use Vicoders\ContactForm\Models\Contact;
+use Vicoders\ContactForm\Pages\Option;
+use Vicoders\ContactForm\Paginate\PaginationHelper;
 use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Exception;
 use NF\Facades\App;
@@ -42,7 +42,7 @@ class ContactFormServiceProvider extends ServiceProvider
     public function initDirectoriesAndFiles()
     {
         if (!file_exists(get_stylesheet_directory() . '/database/migrations/2018_01_01_000000_create_contact_table.php')) {
-            copy(get_stylesheet_directory() . '/vendor/garung/contact-form-for-nftheme/src/database/migrations/2018_01_01_000000_create_contact_table.php', get_stylesheet_directory() . '/database/migrations/2018_01_01_000000_create_contact_table.php');
+            copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/src/database/migrations/2018_01_01_000000_create_contact_table.php', get_stylesheet_directory() . '/database/migrations/2018_01_01_000000_create_contact_table.php');
         }
         if (!is_dir(get_stylesheet_directory() . '/resources/views')) {
             throw new Exception("views folder not found", 1);
@@ -54,14 +54,14 @@ class ContactFormServiceProvider extends ServiceProvider
             mkdir(get_stylesheet_directory() . '/resources/views/vendor/option', 0755);
         }
         if (!file_exists(get_stylesheet_directory() . '/resources/views/vendor/option/admin.blade.php')) {
-            copy(get_stylesheet_directory() . '/vendor/garung/contact-form-for-nftheme/resources/views/admin.blade.php', get_stylesheet_directory() . '/resources/views/vendor/option/admin.blade.php');
+            copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/views/admin.blade.php', get_stylesheet_directory() . '/resources/views/vendor/option/admin.blade.php');
         }
 
         if (!is_dir(get_stylesheet_directory() . '/resources/views/vendor/option/pagination')) {
             mkdir(get_stylesheet_directory() . '/resources/views/vendor/option/pagination', 0755);
         }
         if (!file_exists(get_stylesheet_directory() . '/resources/views/vendor/option/pagination/default.blade.php')) {
-            copy(get_stylesheet_directory() . '/vendor/garung/contact-form-for-nftheme/resources/views/pagination/default.blade.php', get_stylesheet_directory() . '/resources/views/vendor/option/pagination/default.blade.php');
+            copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/views/pagination/default.blade.php', get_stylesheet_directory() . '/resources/views/vendor/option/pagination/default.blade.php');
         }
     }
 
@@ -86,12 +86,12 @@ class ContactFormServiceProvider extends ServiceProvider
         add_action('admin_enqueue_scripts', function () {
             wp_enqueue_style(
                 'admin-contact-style',
-                wp_slash(get_stylesheet_directory_uri() . '/vendor/garung/contact-form-for-nftheme/assets/dist/app.css'),
+                wp_slash(get_stylesheet_directory_uri() . '/vendor/vicoders/contact-form-for-nftheme/assets/dist/app.css'),
                 false
             );
             wp_enqueue_script(
                 'admin-contact-scripts',
-                wp_slash(get_stylesheet_directory_uri() . '/vendor/garung/contact-form-for-nftheme/assets/dist/app.js'),
+                wp_slash(get_stylesheet_directory_uri() . '/vendor/vicoders/contact-form-for-nftheme/assets/dist/app.js'),
                 'jquery',
                 '1.0.4',
                 true
@@ -135,12 +135,12 @@ class ContactFormServiceProvider extends ServiceProvider
         add_action('wp_enqueue_scripts', function () {
             wp_enqueue_style(
                 'contact-form-style',
-                wp_slash(get_stylesheet_directory_uri() . '/vendor/garung/contact-form-for-nftheme/assets/dist/app.css'),
+                wp_slash(get_stylesheet_directory_uri() . '/vendor/vicoders/contact-form-for-nftheme/assets/dist/app.css'),
                 false
             );
             wp_enqueue_script(
                 'contact-form-scripts',
-                wp_slash(get_stylesheet_directory_uri() . '/vendor/garung/contact-form-for-nftheme/assets/dist/app.js'),
+                wp_slash(get_stylesheet_directory_uri() . '/vendor/vicoders/contact-form-for-nftheme/assets/dist/app.js'),
                 'jquery',
                 '1.1',
                 true

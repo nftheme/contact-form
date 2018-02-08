@@ -1,6 +1,6 @@
 <?php
 
-namespace Garung\ContactForm\Abstracts;
+namespace Vicoders\ContactForm\Abstracts;
 
 class Page
 {

@@ -1,20 +1,20 @@
 <?php
 
-namespace Garung\ContactForm;
+namespace Vicoders\ContactForm;
 
-use Garung\ContactForm\Abstracts\Form;
-use Garung\ContactForm\Abstracts\Input;
-use Garung\ContactForm\Abstracts\Page;
-use Garung\ContactForm\Inputs\Date;
-use Garung\ContactForm\Inputs\DateTime;
-use Garung\ContactForm\Inputs\Email;
-use Garung\ContactForm\Inputs\Gallery;
-use Garung\ContactForm\Inputs\Image;
-use Garung\ContactForm\Inputs\Number;
-use Garung\ContactForm\Inputs\Select;
-use Garung\ContactForm\Inputs\Submit;
-use Garung\ContactForm\Inputs\Text;
-use Garung\ContactForm\Inputs\Textarea;
+use Vicoders\ContactForm\Abstracts\Form;
+use Vicoders\ContactForm\Abstracts\Input;
+use Vicoders\ContactForm\Abstracts\Page;
+use Vicoders\ContactForm\Inputs\Date;
+use Vicoders\ContactForm\Inputs\DateTime;
+use Vicoders\ContactForm\Inputs\Email;
+use Vicoders\ContactForm\Inputs\Gallery;
+use Vicoders\ContactForm\Inputs\Image;
+use Vicoders\ContactForm\Inputs\Number;
+use Vicoders\ContactForm\Inputs\Select;
+use Vicoders\ContactForm\Inputs\Submit;
+use Vicoders\ContactForm\Inputs\Text;
+use Vicoders\ContactForm\Inputs\Textarea;
 use Illuminate\Support\Collection;
 use NF\Facades\Request;
 
