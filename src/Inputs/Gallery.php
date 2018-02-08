@@ -1,9 +1,9 @@
 <?php
 
-namespace Garung\ContactForm\Inputs;
+namespace Vicoders\ContactForm\Inputs;
 
 use Illuminate\Support\Collection;
-use Garung\ContactForm\Abstracts\Input;
+use Vicoders\ContactForm\Abstracts\Input;
 
 class Gallery extends Input
 {

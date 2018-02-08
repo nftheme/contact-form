@@ -1,8 +1,8 @@
 <?php
 
-namespace Garung\ContactForm\Inputs;
+namespace Vicoders\ContactForm\Inputs;
 
-use Garung\ContactForm\Abstracts\Input;
+use Vicoders\ContactForm\Abstracts\Input;
 use NightFury\Form\Facades\Form;
 
 class Select extends Input
@@ -70,6 +70,13 @@ class Select extends Input
         if($this->label !== '') {
             $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }
+        if(empty($this->selected) && !empty($this->list)) {
+            foreach ($this->list as $key => $item) {
+                if(str_slug(get_the_title()) == str_slug($item)) {
+                    $this->selected = $item;
+                }
+            }
+        }
         $html .= Form::select($this->name, $this->list, $this->selected, $this->selectAttributes, $this->optionsAttributes);
         $html .= '</div>';
         return $html;
@@ -82,9 +89,15 @@ class Select extends Input
         if($this->label !== '') {
             $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }
+        if(empty($this->selected) && !empty($this->list)) {
+            foreach ($this->list as $key => $item) {
+                if(str_slug(get_the_title()) == str_slug($item)) {
+                    $this->selected = $item;
+                }
+            }
+        }
         $html .= Form::select($this->name, $this->list, $this->selected, $this->selectAttributes, $this->optionsAttributes);
         $html .= '</div>';
         return $html;
     }
-
 }

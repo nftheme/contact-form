@@ -1,20 +1,21 @@
 {
-    "name": "garung/contact-form-for-nftheme",
+    "name": "vicoders/contact-form-for-nftheme",
     "description": "Extension kit for NF Theme",
     "license": "MIT",
     "authors": [{
-        "name": "Hieupv",
-        "email": "hieupv@codersvn.com"
+        "name": "Garung",
+        "email": "daudq.info@gmail.com"
     }],
     "autoload": {
         "psr-4": {
-            "Garung\\ContactForm\\": "src/"
+            "Vicoders\\ContactForm\\": "src/"
         }
     },
     "require": {
+        "php": ">=5.6",
         "nf/core": ">=2.0",
         "guzzlehttp/guzzle": "^6.3",
         "nf/form": "^1.0",
-        "garung/migration-for-nftheme": "^1.0"
+        "vicoders/migration-for-nftheme": "^1.0"
     }
 }

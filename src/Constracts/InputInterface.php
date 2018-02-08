@@ -1,6 +1,6 @@
 <?php
 
-namespace Garung\ContactForm\Constracts;
+namespace Vicoders\ContactForm\Constracts;
 
 interface InputInterface
 {

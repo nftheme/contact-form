@@ -1,6 +1,6 @@
 <?php
 
-namespace Garung\ContactForm\Console;
+namespace Vicoders\ContactForm\Console;
 
 use Exception;
 use Symfony\Component\Console\Command\Command;
