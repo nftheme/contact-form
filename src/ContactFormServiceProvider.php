@@ -103,8 +103,6 @@ class ContactFormServiceProvider extends ServiceProvider
             wp_localize_script('admin-contact-scripts', 'ajax_obj', $params);
         });
 
-        add_action('admin_post_nto_save', [ContactFormManager::class, 'save']);
-        add_action('wp_ajax_nto_remove', [ContactFormManager::class, 'remove']);
         add_action('wp_ajax_change_status_record_contact', [$this, 'changeStatus']);
         add_action('wp_ajax_delete_record_contact', [$this, 'deleteRecord']);
     }
