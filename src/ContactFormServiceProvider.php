@@ -53,8 +53,8 @@ class ContactFormServiceProvider extends ServiceProvider
         if (!is_dir(get_stylesheet_directory() . '/resources/views/vendor/option')) {
             mkdir(get_stylesheet_directory() . '/resources/views/vendor/option', 0755);
         }
-        if (!file_exists(get_stylesheet_directory() . '/resources/views/vendor/option/admin.blade.php')) {
-            copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/views/admin.blade.php', get_stylesheet_directory() . '/resources/views/vendor/option/admin.blade.php');
+        if (!file_exists(get_stylesheet_directory() . '/resources/views/vendor/option/contact_admin.blade.php')) {
+            copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/views/contact_admin.blade.php', get_stylesheet_directory() . '/resources/views/vendor/option/contact_admin.blade.php');
         }
 
         if (!is_dir(get_stylesheet_directory() . '/resources/views/vendor/option/pagination')) {
