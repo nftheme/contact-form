@@ -185,5 +185,34 @@ from 'vicoders/services';
                 });
             }
         });
+        $(document).on('click', `.export-btn`, function(){
+            var confirm_t = confirm("Are you sure export all records to csv file !");
+            if (confirm_t == true) {
+                var page = $(this).attr('data-page');
+                var name = $(this).attr('data-name');
+                $.ajax({
+                    method: 'POST',
+                    url: ajax_obj.ajax_url,
+                    data: {
+                        action: 'export_record_contact',
+                        page: page,
+                        name: name
+                    },
+                })
+                .done((response) => {
+                    if(response.data.status == 1) {
+                        notify.show('success', response.data.message, 5000);
+                    } else {
+                        notify.show('warning', response.data.message, 5000);
+                    }
+                    if(response.data.status == 1 && response.data != null) {
+                        window.location.replace(response.data.path);
+                    }
+                })
+                .fail(() => {
+                    notify.show('warning', response.data.message, 5000);
+                });
+            }
+        });
     }
 })(jQuery)

@@ -67,6 +67,14 @@ class Form
     }
 
     /**
+     * @return self
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
      * [setType set a string is type of page]
      * @param string $type_page [description]
      */

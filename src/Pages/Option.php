@@ -68,6 +68,6 @@ class Option extends AdminPage
         $next_page_url = PaginationHelper::getNextPageUrl($name_tab, $page_query_param, $total);
         $prev_page_url = PaginationHelper::getPreviousPageUrl($name_tab, $page_query_param);
 
-        echo view('vendor.option.contact_admin', compact('manager', 'pages', 'current_page', 'should_flash', 'contact_data', 'next_page_url', 'prev_page_url', 'total', 'page_query_param', 'total_page', 'list_status', 'param_page', 'name_tab', 'statusfilter'));
+        echo \Vicoders\ContactForm\Facades\View::render('contact_admin', compact('manager', 'pages', 'current_page', 'should_flash', 'contact_data', 'next_page_url', 'prev_page_url', 'total', 'page_query_param', 'total_page', 'list_status', 'param_page', 'name_tab', 'statusfilter'));
     }
 }

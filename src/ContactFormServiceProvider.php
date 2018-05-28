@@ -226,8 +226,11 @@ class ContactFormServiceProvider extends ServiceProvider
 
     public function exportRecord()
     {
-        $data['message'] = 'An error occur ! Export failure';
-        $data['status']  = 0;
+        $data = [
+            'message' => 'An error occur ! Export failure',
+            'status'  => 0,
+            'path' => ''
+        ];
         $request         = Request::except('action');
         if (!empty($request)) {
             $page         = $request['page'];
@@ -235,14 +238,12 @@ class ContactFormServiceProvider extends ServiceProvider
             $query        = new Contact();
             $query        = $query->where('name_slug', $form_name);
             $contact_data = $query->orderBy('id', 'DESC')->get();
-            $result       = Office::export($contact_data, $form_name, Date('Ymd_His') . '_export_' . $form_name);
-            if ($result) {
-                $data['message'] = 'Export successful';
-                $data['status']  = 1;
-            } else {
-                $data['message'] = 'Export failure ! Please check again or Contact with administrator';
-                $data['status']  = 0;
-            }
+            $path       = Office::export($form_name, $contact_data);
+            $data = [
+                'message' => 'Export successful',
+                'status'  => 1,
+                'path' => $path
+            ];
         }
         wp_send_json(compact('data'));
     }

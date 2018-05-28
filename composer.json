@@ -16,6 +16,7 @@
         "nf/core": ">=2.0",
         "guzzlehttp/guzzle": "^6.3",
         "nf/form": "^1.0",
+        "league/csv": "^8.0",
         "vicoders/migration-for-nftheme": "^1.0"
     }
 }

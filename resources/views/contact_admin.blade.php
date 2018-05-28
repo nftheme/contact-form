@@ -19,6 +19,7 @@
             <input type="hidden" name="page" value="{{ $param_page }}">
             <input type="hidden" name="tab" value="{{ $name_tab }}">
             <div class="col-xs-4 actions">
+                <input type="button" class="button export-btn" data-page="{{ $param_page }}" data-name="{{ $name_tab }}" value="{!! __('Export', 'contactmodule') !!}">
                 <select class="custom-select-filter" name="statusfilter">
                     <option value="-1">All</option>
                     @foreach($list_status as $key => $item)
@@ -86,7 +87,7 @@
                     'total_page' => $total_page
                 ];
             @endphp
-            {{ view('vendor.option.pagination.default', $data) }}
+            {!! \Vicoders\ContactForm\Facades\View::render('pagination.default', $data) !!}
         </div>
     </div>
 </div>
