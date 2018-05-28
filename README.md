@@ -1,15 +1,15 @@
 ## Create contact and subcribe form easy with ContactFormModule 
  > It's an extension for our theme https://github.com/hieu-pv/nf-theme 
  
-### Before Install
+### A. Before Install
 ##### Install Migrate and Form package.
-![#f03c15]<strong style="color: red; font-size: 16px;">Install Migrate and Form package is require !</strong>
+- <strong style="color: red; font-size: 16px;">Install Migrate and Form package is require !</strong>
 
 Refer to the instructions here: 
 - [Migrate](https://github.com/garungabc/MigrateForNFTheme)
 - [Form](https://github.com/hieu-pv/nf-form)
 
-### Installation
+### B. Installation
 ##### Step 1: Install Through Composer
 ```
 composer require vicoders/contact-form-for-nftheme
