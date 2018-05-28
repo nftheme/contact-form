@@ -2,16 +2,19 @@
 
 namespace Vicoders\ContactForm;
 
-use Vicoders\ContactForm\Console\PublishCommand;
-use Vicoders\ContactForm\Facades\ContactFormManager;
-use Vicoders\ContactForm\Models\Contact;
-use Vicoders\ContactForm\Pages\Option;
-use Vicoders\ContactForm\Paginate\PaginationHelper;
+global $wpdb;
+define('PREFIX_TABLE', $wpdb->prefix);
+
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Exception;
 use NF\Facades\App;
-use NF\Facades\Log;
 use NF\Facades\Request;
+use Vicoders\ContactForm\Console\PublishCommand;
+use Vicoders\ContactForm\Facades\Office;
+use Vicoders\ContactForm\Models\Contact;
+use Vicoders\ContactForm\Pages\Option;
+use Vicoders\ContactForm\Paginate\PaginationHelper;
 
 class ContactFormServiceProvider extends ServiceProvider
 {
@@ -41,28 +44,41 @@ class ContactFormServiceProvider extends ServiceProvider
 
     public function initDirectoriesAndFiles()
     {
+        if (!is_dir(get_stylesheet_directory() . '/database')) {
+            mkdir(get_stylesheet_directory() . '/database', 0755);
+        }
+        if (!is_dir(get_stylesheet_directory() . '/database/migrations')) {
+            mkdir(get_stylesheet_directory() . '/database/migrations', 0755);
+        }
+        if (!is_dir(get_stylesheet_directory() . '/storage/app')) {
+            mkdir(get_stylesheet_directory() . '/storage/app', 0755);
+        }
+        if (!is_dir(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/cache')) {
+            mkdir(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/cache', 0755);
+        }
+
         if (!file_exists(get_stylesheet_directory() . '/database/migrations/2018_01_01_000000_create_contact_table.php')) {
             copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/src/database/migrations/2018_01_01_000000_create_contact_table.php', get_stylesheet_directory() . '/database/migrations/2018_01_01_000000_create_contact_table.php');
         }
-        if (!is_dir(get_stylesheet_directory() . '/resources/views')) {
-            throw new Exception("views folder not found", 1);
-        }
-        if (!is_dir(get_stylesheet_directory() . '/resources/views/vendor')) {
-            mkdir(get_stylesheet_directory() . '/resources/views/vendor', 0755);
-        }
-        if (!is_dir(get_stylesheet_directory() . '/resources/views/vendor/option')) {
-            mkdir(get_stylesheet_directory() . '/resources/views/vendor/option', 0755);
-        }
-        if (!file_exists(get_stylesheet_directory() . '/resources/views/vendor/option/contact_admin.blade.php')) {
-            copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/views/contact_admin.blade.php', get_stylesheet_directory() . '/resources/views/vendor/option/contact_admin.blade.php');
-        }
+        // if (!is_dir(get_stylesheet_directory() . '/resources/views')) {
+        //     throw new Exception("views folder not found", 1);
+        // }
+        // if (!is_dir(get_stylesheet_directory() . '/resources/views/vendor')) {
+        //     mkdir(get_stylesheet_directory() . '/resources/views/vendor', 0755);
+        // }
+        // if (!is_dir(get_stylesheet_directory() . '/resources/views/vendor/option')) {
+        //     mkdir(get_stylesheet_directory() . '/resources/views/vendor/option', 0755);
+        // }
+        // if (!file_exists(get_stylesheet_directory() . '/resources/views/vendor/option/contact_admin.blade.php')) {
+        //     copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/views/contact_admin.blade.php', get_stylesheet_directory() . '/resources/views/vendor/option/contact_admin.blade.php');
+        // }
 
-        if (!is_dir(get_stylesheet_directory() . '/resources/views/vendor/option/pagination')) {
-            mkdir(get_stylesheet_directory() . '/resources/views/vendor/option/pagination', 0755);
-        }
-        if (!file_exists(get_stylesheet_directory() . '/resources/views/vendor/option/pagination/default.blade.php')) {
-            copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/views/pagination/default.blade.php', get_stylesheet_directory() . '/resources/views/vendor/option/pagination/default.blade.php');
-        }
+        // if (!is_dir(get_stylesheet_directory() . '/resources/views/vendor/option/pagination')) {
+        //     mkdir(get_stylesheet_directory() . '/resources/views/vendor/option/pagination', 0755);
+        // }
+        // if (!file_exists(get_stylesheet_directory() . '/resources/views/vendor/option/pagination/default.blade.php')) {
+        //     copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/views/pagination/default.blade.php', get_stylesheet_directory() . '/resources/views/vendor/option/pagination/default.blade.php');
+        // }
     }
 
     public function registerCommand()
@@ -103,10 +119,9 @@ class ContactFormServiceProvider extends ServiceProvider
             wp_localize_script('admin-contact-scripts', 'ajax_obj', $params);
         });
 
-        add_action('admin_post_nto_save', [ContactFormManager::class, 'save']);
-        add_action('wp_ajax_nto_remove', [ContactFormManager::class, 'remove']);
         add_action('wp_ajax_change_status_record_contact', [$this, 'changeStatus']);
         add_action('wp_ajax_delete_record_contact', [$this, 'deleteRecord']);
+        add_action('wp_ajax_export_record_contact', [$this, 'exportRecord']);
     }
 
     public function handle()
@@ -204,6 +219,29 @@ class ContactFormServiceProvider extends ServiceProvider
             if ($result) {
                 $data['message'] = 'Delete record successful';
                 $data['status']  = 1;
+            }
+        }
+        wp_send_json(compact('data'));
+    }
+
+    public function exportRecord()
+    {
+        $data['message'] = 'An error occur ! Export failure';
+        $data['status']  = 0;
+        $request         = Request::except('action');
+        if (!empty($request)) {
+            $page         = $request['page'];
+            $form_name    = $request['name'];
+            $query        = new Contact();
+            $query        = $query->where('name_slug', $form_name);
+            $contact_data = $query->orderBy('id', 'DESC')->get();
+            $result       = Office::export($contact_data, $form_name, Date('Ymd_His') . '_export_' . $form_name);
+            if ($result) {
+                $data['message'] = 'Export successful';
+                $data['status']  = 1;
+            } else {
+                $data['message'] = 'Export failure ! Please check again or Contact with administrator';
+                $data['status']  = 0;
             }
         }
         wp_send_json(compact('data'));

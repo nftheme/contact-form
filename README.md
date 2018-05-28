@@ -24,8 +24,13 @@ composer require vicoders/contact-form-for-nftheme
     ],
 ```
 ##### Step 3: Run migrate command
-> Run `php command migrate` command to create table
 
+- Run `php command contact:publish` command to render migrate file:
+```php
+php command contact:publish
+```
+
+- Run `php command migrate` command to run migrate and create contact table
 ```php
 php command migrate
 ```
@@ -38,12 +43,12 @@ All supported type can be found here
 - [Type](https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Type.php)
 
 ```php
-use Vicoders\ContactForm\Abstracts\Input as ContactInput;
+use Vicoders\ContactForm\Abstracts\Input;
 use Vicoders\ContactForm\Abstracts\Type;
 use Vicoders\ContactForm\Facades\ContactFormManager;
 
 ContactFormManager::add([
-    'name'   => 'subcribe name'
+    'name'   => 'subcribe name',
     'type'   => Type::CONTACT,
     'style'  => 'form-1',
     'status' => [
@@ -72,7 +77,7 @@ ContactFormManager::add([
         [
             'label'      => 'Text',
             'name'       => 'firstname', // the key of option
-            'type'       => ContactInput::TEXT,
+            'type'       => Input::TEXT,
             'attributes' => [
                 'required'   => true,
                 'class'       => 'col-sm-6 form-control',
@@ -82,7 +87,7 @@ ContactFormManager::add([
         [
             'label'      => 'Text',
             'name'       => 'lastname', // the key of option
-            'type'       => ContactInput::TEXT,
+            'type'       => Input::TEXT,
             'attributes' => [
                 'required'   => true,
                 'class'       => 'col-sm-6 form-control',
@@ -92,7 +97,7 @@ ContactFormManager::add([
         [
             'label'      => 'Email',
             'name'       => 'email', // the key of option
-            'type'       => ContactInput::EMAIL,
+            'type'       => Input::EMAIL,
             'attributes' => [
                 'required'   => true,
                 'class'       => 'col-sm-12 form-control',
@@ -102,7 +107,7 @@ ContactFormManager::add([
         [
             'label'      => 'Phone',
             'name'       => 'phone',
-            'type'       => ContactInput::TEXT,
+            'type'       => Input::TEXT,
             'attributes' => [
                 'required'   => true,
                 'class'       => 'col-sm-12 form-control',
@@ -112,7 +117,7 @@ ContactFormManager::add([
         [
             'label'             => 'Choose Size',
             'name'              => 'choose-size',
-            'type'              => ContactInput::SELECT,
+            'type'              => Input::SELECT,
             'list'              => [
                 '0'       => '--- option ---',
                 'size-l'  => 'Size L',
@@ -131,7 +136,7 @@ ContactFormManager::add([
         [
             'label'      => 'Textarea',
             'name'       => 'textarea',
-            'type'       => ContactInput::TEXTAREA,
+            'type'       => Input::TEXTAREA,
             'attributes' => [
                 'required'          => true,
                 'class'       => 'col-sm-12 form-control',
@@ -140,7 +145,7 @@ ContactFormManager::add([
         ],
         [
             'name'       => 'date',
-            'type'       => ContactInput::DATE,
+            'type'       => Input::DATE,
             'attributes' => [
                 'required'   => 'true',
                 'class'       => 'col-sm-12 form-control email-inp-wrap',
@@ -149,7 +154,7 @@ ContactFormManager::add([
         ],
         [
             'value'       => 'Submit',
-            'type'       => ContactInput::SUBMIT,
+            'type'       => Input::SUBMIT,
             'attributes' => [
                 'class'       => 'btn btn-primary btn-submit',
                 'placeholder' => __('Hãy nhập email của bạn', 'contactmodule'),
@@ -159,7 +164,7 @@ ContactFormManager::add([
 ]);
 ```
 
-Notice: If `selected` attribute of ContactInput::SELECT don't set, it'll automation check title of current page with items in list which you set at `list` attribute.
+Notice: If `selected` attribute of Input::SELECT don't set, it'll automation check title of current page with items in list which you set at `list` attribute.
 
 ##### Step 5: Add shortcode
 > Automatic create a shortcode name `nf_contact_form` with a attribute `name` is require:
