@@ -3,7 +3,7 @@
  
 ### Before Install
 ##### Install Migrate and Form package.
-<strong style="color: red; font-size: ">Install Migrate and Form package is require !</strong>
+<strong style="color: red; font-size: 16px;">Install Migrate and Form package is require !</strong>
 
 Refer to the instructions here: 
 - [Migrate](https://github.com/garungabc/MigrateForNFTheme)
