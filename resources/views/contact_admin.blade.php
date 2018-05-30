@@ -29,6 +29,9 @@
                 <input type="submit" class="button" value="{!! __('filter', 'contactmodule') !!}">
             </div>
         </form>
+        <?php 
+        if($config_email):
+        ?>
         <div class="col-xs-12 actions">
             <select class="html_template_inp custom-select-filter" name="template_html">
                 <option value="">Choose html template</option>
@@ -44,6 +47,9 @@
             <input type="button" data-page="{{ $param_page }}" data-name="{{ $name_tab }}" class="button send_email_single" name="send_email" value="Send bulk email">
             <input type="button" class="button send_email_all" data-page="{{ $param_page }}" data-name="{{ $name_tab }}" name="send_email_all" value="Send all">
         </div>
+        <?php  
+        endif;
+        ?>
         <table class="table table-bordered table-striped contact-module-table">
             <thead>
                 <tr>

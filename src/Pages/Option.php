@@ -65,10 +65,11 @@ class Option extends AdminPage
         $form           = $manager->getForm($name_tab);
         $list_status    = $form->getStatus();
         $template_email = $form->getTemplateEmail();
+        $config_email   = $form->getConfigEmail();
 
         $next_page_url = PaginationHelper::getNextPageUrl($name_tab, $page_query_param, $total);
         $prev_page_url = PaginationHelper::getPreviousPageUrl($name_tab, $page_query_param);
 
-        echo \Vicoders\ContactForm\Facades\View::render('contact_admin', compact('manager', 'pages', 'current_page', 'should_flash', 'contact_data', 'next_page_url', 'prev_page_url', 'total', 'page_query_param', 'total_page', 'list_status', 'param_page', 'name_tab', 'statusfilter', 'template_email'));
+        echo \Vicoders\ContactForm\Facades\View::render('contact_admin', compact('manager', 'pages', 'current_page', 'should_flash', 'contact_data', 'next_page_url', 'prev_page_url', 'total', 'page_query_param', 'total_page', 'list_status', 'param_page', 'name_tab', 'statusfilter', 'template_email', 'config_email'));
     }
 }
