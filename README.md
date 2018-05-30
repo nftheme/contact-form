@@ -48,33 +48,30 @@ ContactFormManager::add([
     'name'   => 'Contact',
     'type'   => Type::CONTACT,
     'style'  => 'form-1',
-    'email_config' => true,
+    'email_config' => true, /* default - false */
     'email_variables' => [
-        'name'  => 'name',
-        'email' => 'email'
+        'name'  => 'NAME_FIELD',
+        'email' => 'EMAIL_FIELD'
     ],
     'email_template' => [
         [
-            'name' => 'template 11',
-            'path' => get_stylesheet_directory() . '/vendor/vicoders/mail/resources/views/template_example.blade.php',
+            'name' => 'Template 1',
+            'path' => 'PATH_TO_HTML_TEMPLATE',
             'params' => [
-
+                'name_author' => 'Garung 123',
+                'post_title'  => 'this is title 123',
+                'content'     => 'this is content 123',
+                'link'        => 'http://google.com',
+                'site_url'    => site_url(),
             ]
         ],
         [
-            'name' => 'template 12',
-            'path' => get_stylesheet_directory() . '/vendor/vicoders/mail/resources/views/template_example.blade.php',
+            'name' => 'Template 1',
+            'path' => 'PATH_TO_HTML_TEMPLATE',
             'params' => [
-
+                'example_variable' => 'demo'
             ]
-        ],
-        [
-            'name' => 'template 13',
-            'path' => get_stylesheet_directory() . '/vendor/vicoders/mail/resources/views/template_example.blade.php',
-            'params' => [
-
-            ]
-        ],
+        ]
     ],
     'status' => [
         [

@@ -6,7 +6,22 @@ import {
 from 'vicoders/services';
 
 (function($) {
-    if($('body').hasClass('wp-admin')) {
+    if ($('.all-inp').length > 0) {
+        $('.all-inp').click(function(){
+            var checked_all = $('.all-inp:checked').length;
+            var checkbox = $('input[name*="id_contact_row"]');
+            checkbox.each(function(index, element){
+                if(checked_all) {
+                    $(element).prop('checked', true);
+                } else {
+                    $(element).prop('checked', false);
+                }
+            });
+        });
+    }
+    function toggle(source) {
+    }
+    if ($('body').hasClass('wp-admin')) {
         let IMAGE_UPLOAD_BTN_CLASSNAME = 'nto-image-upload-btn';
         let IMAGE_REMOVE_ITEM_CLASSNAME = 'nto-image-remove';
         let GALLERY_UPLOAD_BTN_CLASSNAME = 'nto-gallery-upload-btn';
@@ -141,121 +156,153 @@ from 'vicoders/services';
             });
         });
 
-        $(document).on('change', `.custom-select`, function(){
+        $(document).on('change', `.custom-select`, function() {
             var attr_id = $(this).attr('attr-id');
             var status = $(this).val();
             $.ajax({
-                method: 'POST',
-                url: ajax_obj.ajax_url,
-                data: {
-                    action: 'change_status_record_contact',
-                    id: attr_id,
-                    status: status
-                },
-            })
-            .done((response) => {
-                notify.show('success', response.data.message, 5000)
-            })
-            .fail(() => {
-                notify.show('warning', response.data.message, 5001);
-            });
+                    method: 'POST',
+                    url: ajax_obj.ajax_url,
+                    data: {
+                        action: 'change_status_record_contact',
+                        id: attr_id,
+                        status: status
+                    },
+                })
+                .done((response) => {
+                    notify.show('success', response.data.message, 5000)
+                })
+                .fail(() => {
+                    notify.show('warning', response.data.message, 5001);
+                });
         });
-        $(document).on('click', `.delete-item`, function(){
+        $(document).on('click', `.delete-item`, function() {
             var confirm_t = confirm("Bạn có chắc muốn xóa bản ghi này!");
             if (confirm_t == true) {
                 var id = $(this).attr('id');
                 $.ajax({
-                    method: 'POST',
-                    url: ajax_obj.ajax_url,
-                    data: {
-                        action: 'delete_record_contact',
-                        id: id
-                    },
-                })
-                .done((response) => {
-                    if(response.data.status == 1) {
-                        notify.show('success', response.data.message, 5000);
-                        self.location.reload();
-                    } else {
+                        method: 'POST',
+                        url: ajax_obj.ajax_url,
+                        data: {
+                            action: 'delete_record_contact',
+                            id: id
+                        },
+                    })
+                    .done((response) => {
+                        if (response.data.status == 1) {
+                            notify.show('success', response.data.message, 5000);
+                            self.location.reload();
+                        } else {
+                            notify.show('warning', response.data.message, 5000);
+                        }
+                    })
+                    .fail(() => {
                         notify.show('warning', response.data.message, 5000);
-                    }
-                })
-                .fail(() => {
-                    notify.show('warning', response.data.message, 5000);
-                });
+                    });
             }
         });
-        $(document).on('click', `.export-btn`, function(){
+        $(document).on('click', `.export-btn`, function() {
             var confirm_t = confirm("Are you sure export all records to csv file !");
             if (confirm_t == true) {
                 var page = $(this).attr('data-page');
                 var name = $(this).attr('data-name');
                 $.ajax({
+                        method: 'POST',
+                        url: ajax_obj.ajax_url,
+                        data: {
+                            action: 'export_record_contact',
+                            page: page,
+                            name: name
+                        },
+                    })
+                    .done((response) => {
+                        if (response.data.status == 1) {
+                            notify.show('success', response.data.message, 5000);
+                        } else {
+                            notify.show('warning', response.data.message, 5000);
+                        }
+                        if (response.data.status == 1 && response.data != null) {
+                            window.location.replace(response.data.path);
+                        }
+                    })
+                    .fail(() => {
+                        notify.show('warning', response.data.message, 5000);
+                    });
+            }
+        });
+
+        $(document).on('click', `.send_email_single`, function() {
+            var email_template = $('.html_template_inp').val();
+            var subject = $('.subject-inp').val();
+            var ids_ct_form = [];
+            var page = $(this).attr('data-page');
+            var name = $(this).attr('data-name');
+            if (email_template === '' || subject === '') {
+                alert('Please, choose email template and fill email subject input !');
+                return false;
+            }
+            if ($('input[name="id_contact_row[]"]:checked').length > 0) {
+                $('input[name="id_contact_row[]"]:checked').each(function(index, ele) {
+                    ids_ct_form.push($(ele).attr('data-id'));
+                });
+            }
+            if (ids_ct_form.length <= 0) {
+                alert('No row selected!');
+                return false;
+            }
+            $.ajax({
                     method: 'POST',
                     url: ajax_obj.ajax_url,
                     data: {
-                        action: 'export_record_contact',
+                        action: 'send_bulk_email',
+                        ids: ids_ct_form,
                         page: page,
-                        name: name
+                        name: name,
+                        email_template: email_template,
+                        subject: subject
                     },
                 })
                 .done((response) => {
-                    if(response.data.status == 1) {
+                    if (response.data.status == 1) {
                         notify.show('success', response.data.message, 5000);
                     } else {
                         notify.show('warning', response.data.message, 5000);
-                    }
-                    if(response.data.status == 1 && response.data != null) {
-                        window.location.replace(response.data.path);
                     }
                 })
                 .fail(() => {
                     notify.show('warning', response.data.message, 5000);
                 });
-            }
         });
-
-        $(document).on('click', `.send_email_single`, function(){
-            var template_email = $('.html_template_inp').val();
+        $(document).on('click', `.send_email_all`, function() {
+            var email_template = $('.html_template_inp').val();
             var subject = $('.subject-inp').val();
             var ids_ct_form = [];
             var page = $(this).attr('data-page');
             var name = $(this).attr('data-name');
-            if(template_email === '' || subject === '') {
-                alert ('Please, choose email template and fill email subject input !');
-                return false;
-            }
-            if($('input[name="id_contact_row[]"]:checked').length > 0) {
-                $('input[name="id_contact_row[]"]:checked').each(function(index, ele){
-                    ids_ct_form.push($(ele).attr('data-id'));
-                });
-            }
-            if(ids_ct_form.length <= 0) {
-                alert ('No row selected!');
+            if (email_template === '' || subject === '') {
+                alert('Please, choose email template and fill email subject input !');
                 return false;
             }
             $.ajax({
-                method: 'POST',
-                url: ajax_obj.ajax_url,
-                data: {
-                    action: 'send_bulk_email',
-                    ids: ids_ct_form,
-                    page: page,
-                    name: name,
-                    template_email: template_email,
-                    subject: subject
-                },
-            })
-            .done((response) => {
-                if(response.data.status == 1) {
-                    notify.show('success', response.data.message, 5000);
-                } else {
+                    method: 'POST',
+                    url: ajax_obj.ajax_url,
+                    data: {
+                        action: 'send_all_email',
+                        page: page,
+                        name: name,
+                        email_template: email_template,
+                        subject: subject
+                    },
+                })
+                .done((response) => {
+                    if (response.data.status == 1) {
+                        notify.show('success', response.data.message, 5000);
+                    } else {
+                        notify.show('warning', response.data.message, 5000);
+                    }
+                })
+                .fail(() => {
                     notify.show('warning', response.data.message, 5000);
-                }
-            })
-            .fail(() => {
-                notify.show('warning', response.data.message, 5000);
-            });
+                });
         });
     }
 })(jQuery)

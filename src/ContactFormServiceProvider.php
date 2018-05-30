@@ -104,6 +104,7 @@ class ContactFormServiceProvider extends ServiceProvider
         add_action('wp_ajax_delete_record_contact', [$this, 'deleteRecord']);
         add_action('wp_ajax_export_record_contact', [$this, 'exportRecord']);
         add_action('wp_ajax_send_bulk_email', [$this, 'sendBulkEmail']);
+        add_action('wp_ajax_send_all_email', [$this, 'sendAllEmail']);
     }
 
     public function handle()
@@ -240,21 +241,23 @@ class ContactFormServiceProvider extends ServiceProvider
         $manager        = App::make('ContactFormManager');
         $page           = $request['page'];
         $form_name      = $request['name'];
-        $template_email = $request['template_html'];
+        $email_template = $request['email_template'];
         $subject        = $request['subject'];
-        $forms = $manager->getForms();
+        $forms          = $manager->getForms();
         if (!isset($forms)) {
             throw new \Exception("Please register your option scheme", 1);
         }
-        $form            = $manager->getForm($form_name);
-        $config_email    = $form->getConfigEmail();
-        $variables_email = $form->getVariableEmail();
+        $form             = $manager->getForm($form_name);
+        $config_email     = $form->getConfigEmail();
+        $variables_email  = $form->getVariableEmail();
+        $get_all_template = $form->getTemplateEmail();
+        $params           = [];
 
         if ($config_email) {
-            $user_data    = [];
-            $query        = new Contact();
-            $query        = $query->whereIn('id', $request['ids']);
-            $contact_data = $query->orderBy('id', 'DESC')->get();
+            $user_data      = [];
+            $query          = new Contact();
+            $query          = $query->whereIn('id', $request['ids']);
+            $contact_data   = $query->orderBy('id', 'DESC')->get();
             if (!empty($contact_data)) {
                 foreach ($contact_data as $key => $item) {
                     $item        = json_decode($item->data, true);
@@ -264,13 +267,14 @@ class ContactFormServiceProvider extends ServiceProvider
                     ];
                 }
 
-                $params = [
-                    'name_author' => 'Garung 123',
-                    'post_title'  => 'this is title 123',
-                    'content'     => 'this is content 123',
-                    'link'        => 'http://google.com',
-                    'site_url'    => site_url(),
-                ];
+                if (!empty($get_all_template)) {
+                    foreach ($get_all_template as $key => $item) {
+                        if ($email_template == $item['path']) {
+                            $params = $item['params'];
+                            break;
+                        }
+                    }
+                }
 
                 $users         = collect($user_data);
                 $convert_users = $users->map(function ($item) use ($params, $subject) {
@@ -281,12 +285,77 @@ class ContactFormServiceProvider extends ServiceProvider
                         ->setParams($params);
                     return $tmp_user;
                 });
-
+                $email_template = file_get_contents($email_template);
                 $email = new \Vicoders\Mail\Email();
-                $email->multi($convert_users, $template_email);
-                // }
+                $email->multi($convert_users, $email_template);
                 $data = [
                     'message' => 'Send email successful',
+                    'status'  => 1,
+                ];
+            }
+            wp_send_json(compact('data'));
+        }
+    }
+
+    public function sendAllEmail()
+    {
+        $data = [
+            'message' => 'An error occur ! Send email failure',
+            'status'  => 0,
+        ];
+        $request        = Request::except('action');
+        $manager        = App::make('ContactFormManager');
+        $page           = $request['page'];
+        $form_name      = $request['name'];
+        $email_template = $request['email_template'];
+        $subject        = $request['subject'];
+        $forms          = $manager->getForms();
+        if (!isset($forms)) {
+            throw new \Exception("Please register your option scheme", 1);
+        }
+        $form             = $manager->getForm($form_name);
+        $config_email     = $form->getConfigEmail();
+        $variables_email  = $form->getVariableEmail();
+        $get_all_template = $form->getTemplateEmail();
+        $params           = [];
+
+        if (!empty($get_all_template)) {
+            foreach ($get_all_template as $key => $item) {
+                if ($email_template === $item['path']) {
+                    $params = $item['params'];
+                    break;
+                }
+            }
+        }
+
+        if ($config_email) {
+            $user_data      = [];
+            $query          = new Contact();
+            $query          = $query->where('name_slug', $form_name);
+            $contact_data   = $query->orderBy('id', 'DESC')->get();
+            if (!empty($contact_data)) {
+                foreach ($contact_data as $key => $item) {
+                    $item        = json_decode($item->data, true);
+                    $user_data[] = [
+                        'name'  => $item[$variables_email['name']],
+                        'email' => $item[$variables_email['email']],
+                    ];
+                }
+
+                $users         = collect($user_data);
+                $convert_users = $users->map(function ($item) use ($params, $subject) {
+                    $tmp_user = new \Vicoders\Mail\Models\User();
+                    $tmp_user->setName($item['name'])
+                        ->setEmail($item['email'])
+                        ->setSubject($subject)
+                        ->setParams($params);
+                    return $tmp_user;
+                });
+                $email_template = file_get_contents($email_template);
+                $email = new \Vicoders\Mail\Email();
+                $email->multi($convert_users, $email_template);
+                $data = [
+                    'message' => 'Sent all email successful',
                     'status'  => 1,
                 ];
             }

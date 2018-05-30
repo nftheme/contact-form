@@ -12621,6 +12621,20 @@ var _services = __webpack_require__(1);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (function ($) {
+    if ($('.all-inp').length > 0) {
+        $('.all-inp').click(function () {
+            var checked_all = $('.all-inp:checked').length;
+            var checkbox = $('input[name*="id_contact_row"]');
+            checkbox.each(function (index, element) {
+                if (checked_all) {
+                    $(element).prop('checked', true);
+                } else {
+                    $(element).prop('checked', false);
+                }
+            });
+        });
+    }
+    function toggle(source) {}
     if ($('body').hasClass('wp-admin')) {
         var remove = function remove(event) {
             var input = $(event.target);
@@ -12830,12 +12844,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         });
 
         $(document).on('click', '.send_email_single', function () {
-            var template_email = $('.html_template_inp').val();
+            var email_template = $('.html_template_inp').val();
             var subject = $('.subject-inp').val();
             var ids_ct_form = [];
             var page = $(this).attr('data-page');
             var name = $(this).attr('data-name');
-            if (template_email === '' || subject === '') {
+            if (email_template === '' || subject === '') {
                 alert('Please, choose email template and fill email subject input !');
                 return false;
             }
@@ -12856,7 +12870,37 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
                     ids: ids_ct_form,
                     page: page,
                     name: name,
-                    template_email: template_email,
+                    email_template: email_template,
+                    subject: subject
+                }
+            }).done(function (response) {
+                if (response.data.status == 1) {
+                    _services.notify.show('success', response.data.message, 5000);
+                } else {
+                    _services.notify.show('warning', response.data.message, 5000);
+                }
+            }).fail(function () {
+                _services.notify.show('warning', response.data.message, 5000);
+            });
+        });
+        $(document).on('click', '.send_email_all', function () {
+            var email_template = $('.html_template_inp').val();
+            var subject = $('.subject-inp').val();
+            var ids_ct_form = [];
+            var page = $(this).attr('data-page');
+            var name = $(this).attr('data-name');
+            if (email_template === '' || subject === '') {
+                alert('Please, choose email template and fill email subject input !');
+                return false;
+            }
+            $.ajax({
+                method: 'POST',
+                url: ajax_obj.ajax_url,
+                data: {
+                    action: 'send_all_email',
+                    page: page,
+                    name: name,
+                    email_template: email_template,
                     subject: subject
                 }
             }).done(function (response) {
