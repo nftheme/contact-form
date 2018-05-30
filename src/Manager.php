@@ -37,6 +37,15 @@ class Manager
         $form->setType($data['type']);
         $form->setStyle($data['style']);
         $form->setStatus($data['status']);
+        if(isset($data['email_config'])) {
+            $form->setConfigEmail($data['email_config']);
+        }
+        if(!empty($data['email_template'])) {
+            $form->setTemplateEmail($data['email_template']);
+        }
+        if(!empty($data['email_variables'])) {
+            $form->setVariableEmail($data['email_variables']);
+        }
         if (!empty($data['status'])) {
             $flag        = false;
             $init_status = 0;

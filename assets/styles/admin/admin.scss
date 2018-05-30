@@ -197,4 +197,19 @@
     .nopadding {
         padding: 0;
     }
+    .inline-element {
+        margin-bottom: 20px;
+        background-size: 8px 10px;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        display: inline-block;
+        padding-right: 45px;
+        line-height: 1.5;
+        color: #495057;
+        vertical-align: middle;
+    }
+
+    .subject {
+        width: 270px;
+    }
 }

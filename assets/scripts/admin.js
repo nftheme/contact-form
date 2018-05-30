@@ -214,5 +214,48 @@ from 'vicoders/services';
                 });
             }
         });
+
+        $(document).on('click', `.send_email_single`, function(){
+            var template_email = $('.html_template_inp').val();
+            var subject = $('.subject-inp').val();
+            var ids_ct_form = [];
+            var page = $(this).attr('data-page');
+            var name = $(this).attr('data-name');
+            if(template_email === '' || subject === '') {
+                alert ('Please, choose email template and fill email subject input !');
+                return false;
+            }
+            if($('input[name="id_contact_row[]"]:checked').length > 0) {
+                $('input[name="id_contact_row[]"]:checked').each(function(index, ele){
+                    ids_ct_form.push($(ele).attr('data-id'));
+                });
+            }
+            if(ids_ct_form.length <= 0) {
+                alert ('No row selected!');
+                return false;
+            }
+            $.ajax({
+                method: 'POST',
+                url: ajax_obj.ajax_url,
+                data: {
+                    action: 'send_bulk_email',
+                    ids: ids_ct_form,
+                    page: page,
+                    name: name,
+                    template_email: template_email,
+                    subject: subject
+                },
+            })
+            .done((response) => {
+                if(response.data.status == 1) {
+                    notify.show('success', response.data.message, 5000);
+                } else {
+                    notify.show('warning', response.data.message, 5000);
+                }
+            })
+            .fail(() => {
+                notify.show('warning', response.data.message, 5000);
+            });
+        });
     }
 })(jQuery)

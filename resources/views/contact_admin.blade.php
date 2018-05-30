@@ -29,10 +29,25 @@
                 <input type="submit" class="button" value="{!! __('filter', 'contactmodule') !!}">
             </div>
         </form>
+        <div class="col-xs-12 actions">
+            <select class="html_template_inp custom-select-filter" name="template_html">
+                <option value="">Choose html template</option>
+                <?php 
+                if(!empty($template_email)) {
+                    foreach ($template_email as $key => $item) {
+                        echo '<option value="' . $item['path'] . '">' . $item['name'] . '</option>';
+                    }
+                }
+                ?>
+            </select>
+            <input type="text" class="subject inline-element subject-inp" name="subject" placeholder="subject email">
+            <input type="button" data-page="{{ $param_page }}" data-name="{{ $name_tab }}" class="button send_email_single" name="send_email" value="Send bulk email">
+            <input type="button" class="button send_email_all" data-page="{{ $param_page }}" data-tab="{{ $name_tab }}" name="send_email_all" value="Send all">
+        </div>
         <table class="table table-bordered table-striped contact-module-table">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th><input type="checkbox" name="all" class="all-inp" value="-1"></th>
                     <th>{!! __('Status', 'contactmodule') !!}</th>
                     @foreach($current_page->fields as $field)
                         @if($field->type !== 'submit') 
@@ -51,7 +66,7 @@
                         $records = json_decode($row->data);
                     @endphp
                         <tr>
-                            <th scope="row">{!! $row->id !!}</th>
+                            <th scope="row"><input type="checkbox" name="id_contact_row[]" class="id_contact_row" data-id="{!! $row->id !!}"></th>
                             <td>
                                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" attr-id="{!! $row->id !!}">
                                     @foreach($list_status as $key => $item)
@@ -70,7 +85,9 @@
                             @endforeach
                             <td>{{ $row->created }}</td>
                             <td>{{ $row->updated }}</td>
-                            <td><button class="btn btn-danger delete-item nopadding" id="{{ $row->id }}"><span class="dashicons dashicons-no-alt"></span></button></td>
+                            <td>
+                                <button class="btn btn-danger delete-item nopadding" id="{{ $row->id }}"><span class="dashicons dashicons-no-alt"></span></button>
+                            </td>
                         </tr>
                     @endforeach
                 @endif

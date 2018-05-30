@@ -43,6 +43,24 @@ class Form
     public $init_status = 0;
 
     /**
+     * [$email_module setting for email module]
+     * @var array
+     */
+    public $email_config = false;
+
+    /**
+     * [$template_email description]
+     * @var array
+     */
+    public $email_template = [];
+
+    /**
+     * [$email_variables description]
+     * @var array
+     */
+    public $email_variables = [];
+
+    /**
      * @param string $name
      *
      * @return self
@@ -144,5 +162,56 @@ class Form
      */
     public function getInitStatus() {
         return $this->init_status;
+    }
+
+    /**
+     * [setConfigEmail description]
+     * @param boolean $config_email [description]
+     */
+    public function setConfigEmail($email_config) {
+        $this->email_config = $email_config;
+        return $this;
+    }
+
+    /**
+     * [getConfigEmail description]
+     * @return [type] [description]
+     */
+    public function getConfigEmail() {
+        return $this->email_config;
+    }
+
+    /**
+     * [setTemplateEmail description]
+     * @param array $template_email [description]
+     */
+    public function setTemplateEmail($email_template) {
+        $this->email_template = $email_template;
+        return $this;
+    }
+
+    /**
+     * [getTemplateEmail description]
+     * @return array [description]
+     */
+    public function getTemplateEmail() {
+        return $this->email_template;
+    }
+
+    /**
+     * [setVariableEmail description]
+     * @param array $email_variables [description]
+     */
+    public function setVariableEmail($email_variables) {
+        $this->email_variables = $email_variables;
+        return $this;
+    }
+
+    /**
+     * [getVariableEmail description]
+     * @return array [description]
+     */
+    public function getVariableEmail() {
+        return $this->email_variables;
     }
 }

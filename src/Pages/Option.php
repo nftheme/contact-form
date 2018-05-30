@@ -3,13 +3,13 @@
 namespace Vicoders\ContactForm\Pages;
 
 use Carbon\Carbon;
+use League\Flysystem\Exception;
+use NF\Facades\App;
+use NF\Facades\Request;
 use Vicoders\ContactForm\Abstracts\AdminPage;
 use Vicoders\ContactForm\Facades\PaginationHelper;
 use Vicoders\ContactForm\Manager;
 use Vicoders\ContactForm\Models\Contact;
-use League\Flysystem\Exception;
-use NF\Facades\App;
-use NF\Facades\Request;
 
 class Option extends AdminPage
 {
@@ -62,12 +62,13 @@ class Option extends AdminPage
             $item->updated = Carbon::createFromFormat('Y-m-d H:i:s', $item->updated_at)->format('l, d-m-Y');
             return $item;
         });
-        $form        = $manager->getForm($name_tab);
-        $list_status = $form->getStatus();
+        $form           = $manager->getForm($name_tab);
+        $list_status    = $form->getStatus();
+        $template_email = $form->getTemplateEmail();
 
         $next_page_url = PaginationHelper::getNextPageUrl($name_tab, $page_query_param, $total);
         $prev_page_url = PaginationHelper::getPreviousPageUrl($name_tab, $page_query_param);
 
-        echo \Vicoders\ContactForm\Facades\View::render('contact_admin', compact('manager', 'pages', 'current_page', 'should_flash', 'contact_data', 'next_page_url', 'prev_page_url', 'total', 'page_query_param', 'total_page', 'list_status', 'param_page', 'name_tab', 'statusfilter'));
+        echo \Vicoders\ContactForm\Facades\View::render('contact_admin', compact('manager', 'pages', 'current_page', 'should_flash', 'contact_data', 'next_page_url', 'prev_page_url', 'total', 'page_query_param', 'total_page', 'list_status', 'param_page', 'name_tab', 'statusfilter', 'template_email'));
     }
 }

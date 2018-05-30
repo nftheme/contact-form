@@ -48,6 +48,34 @@ ContactFormManager::add([
     'name'   => 'Contact',
     'type'   => Type::CONTACT,
     'style'  => 'form-1',
+    'email_config' => true,
+    'email_variables' => [
+        'name'  => 'name',
+        'email' => 'email'
+    ],
+    'email_template' => [
+        [
+            'name' => 'template 11',
+            'path' => get_stylesheet_directory() . '/vendor/vicoders/mail/resources/views/template_example.blade.php',
+            'params' => [
+
+            ]
+        ],
+        [
+            'name' => 'template 12',
+            'path' => get_stylesheet_directory() . '/vendor/vicoders/mail/resources/views/template_example.blade.php',
+            'params' => [
+
+            ]
+        ],
+        [
+            'name' => 'template 13',
+            'path' => get_stylesheet_directory() . '/vendor/vicoders/mail/resources/views/template_example.blade.php',
+            'params' => [
+
+            ]
+        ],
+    ],
     'status' => [
         [
             'id' => 1,

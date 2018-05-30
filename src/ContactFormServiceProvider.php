@@ -60,25 +60,6 @@ class ContactFormServiceProvider extends ServiceProvider
         if (!file_exists(get_stylesheet_directory() . '/database/migrations/2018_01_01_000000_create_contact_table.php')) {
             copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/src/database/migrations/2018_01_01_000000_create_contact_table.php', get_stylesheet_directory() . '/database/migrations/2018_01_01_000000_create_contact_table.php');
         }
-        // if (!is_dir(get_stylesheet_directory() . '/resources/views')) {
-        //     throw new Exception("views folder not found", 1);
-        // }
-        // if (!is_dir(get_stylesheet_directory() . '/resources/views/vendor')) {
-        //     mkdir(get_stylesheet_directory() . '/resources/views/vendor', 0755);
-        // }
-        // if (!is_dir(get_stylesheet_directory() . '/resources/views/vendor/option')) {
-        //     mkdir(get_stylesheet_directory() . '/resources/views/vendor/option', 0755);
-        // }
-        // if (!file_exists(get_stylesheet_directory() . '/resources/views/vendor/option/contact_admin.blade.php')) {
-        //     copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/views/contact_admin.blade.php', get_stylesheet_directory() . '/resources/views/vendor/option/contact_admin.blade.php');
-        // }
-
-        // if (!is_dir(get_stylesheet_directory() . '/resources/views/vendor/option/pagination')) {
-        //     mkdir(get_stylesheet_directory() . '/resources/views/vendor/option/pagination', 0755);
-        // }
-        // if (!file_exists(get_stylesheet_directory() . '/resources/views/vendor/option/pagination/default.blade.php')) {
-        //     copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/views/pagination/default.blade.php', get_stylesheet_directory() . '/resources/views/vendor/option/pagination/default.blade.php');
-        // }
     }
 
     public function registerCommand()
@@ -122,6 +103,7 @@ class ContactFormServiceProvider extends ServiceProvider
         add_action('wp_ajax_change_status_record_contact', [$this, 'changeStatus']);
         add_action('wp_ajax_delete_record_contact', [$this, 'deleteRecord']);
         add_action('wp_ajax_export_record_contact', [$this, 'exportRecord']);
+        add_action('wp_ajax_send_bulk_email', [$this, 'sendBulkEmail']);
     }
 
     public function handle()
@@ -229,22 +211,86 @@ class ContactFormServiceProvider extends ServiceProvider
         $data = [
             'message' => 'An error occur ! Export failure',
             'status'  => 0,
-            'path' => ''
+            'path'    => '',
         ];
-        $request         = Request::except('action');
+        $request = Request::except('action');
         if (!empty($request)) {
             $page         = $request['page'];
             $form_name    = $request['name'];
             $query        = new Contact();
             $query        = $query->where('name_slug', $form_name);
             $contact_data = $query->orderBy('id', 'DESC')->get();
-            $path       = Office::export($form_name, $contact_data);
-            $data = [
+            $path         = Office::export($form_name, $contact_data);
+            $data         = [
                 'message' => 'Export successful',
                 'status'  => 1,
-                'path' => $path
+                'path'    => $path,
             ];
         }
         wp_send_json(compact('data'));
+    }
+
+    public function sendBulkEmail()
+    {
+        $data = [
+            'message' => 'An error occur ! Send email failure',
+            'status'  => 0,
+        ];
+        $request        = Request::except('action');
+        $manager        = App::make('ContactFormManager');
+        $page           = $request['page'];
+        $form_name      = $request['name'];
+        $template_email = $request['template_html'];
+        $subject        = $request['subject'];
+        $forms = $manager->getForms();
+        if (!isset($forms)) {
+            throw new \Exception("Please register your option scheme", 1);
+        }
+        $form            = $manager->getForm($form_name);
+        $config_email    = $form->getConfigEmail();
+        $variables_email = $form->getVariableEmail();
+
+        if ($config_email) {
+            $user_data    = [];
+            $query        = new Contact();
+            $query        = $query->whereIn('id', $request['ids']);
+            $contact_data = $query->orderBy('id', 'DESC')->get();
+            if (!empty($contact_data)) {
+                foreach ($contact_data as $key => $item) {
+                    $item        = json_decode($item->data, true);
+                    $user_data[] = [
+                        'name'  => $item[$variables_email['name']],
+                        'email' => $item[$variables_email['email']],
+                    ];
+                }
+
+                $params = [
+                    'name_author' => 'Garung 123',
+                    'post_title'  => 'this is title 123',
+                    'content'     => 'this is content 123',
+                    'link'        => 'http://google.com',
+                    'site_url'    => site_url(),
+                ];
+
+                $users         = collect($user_data);
+                $convert_users = $users->map(function ($item) use ($params, $subject) {
+                    $tmp_user = new \Vicoders\Mail\Models\User();
+                    $tmp_user->setName($item['name'])
+                        ->setEmail($item['email'])
+                        ->setSubject($subject)
+                        ->setParams($params);
+                    return $tmp_user;
+                });
+
+                $email = new \Vicoders\Mail\Email();
+                $email->multi($convert_users, $template_email);
+                // }
+                $data = [
+                    'message' => 'Send email successful',
+                    'status'  => 1,
+                ];
+            }
+            wp_send_json(compact('data'));
+        }
     }
 }
