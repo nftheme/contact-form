@@ -171,7 +171,6 @@ class ContactFormServiceProvider extends ServiceProvider
         if (!empty($request)) {
             $id     = $request['id'];
             $status = $request['status'];
-            Log::info($status);
             if (!isset($id) || !isset($status)) {
                 $data['message'] = 'ID or Status value is undefined!';
                 wp_send_json(compact('data'));
