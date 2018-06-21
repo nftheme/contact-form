@@ -2,6 +2,8 @@
 
 namespace Vicoders\ContactForm;
 
+use Illuminate\Support\Collection;
+use NF\Facades\Request;
 use Vicoders\ContactForm\Abstracts\Form;
 use Vicoders\ContactForm\Abstracts\Input;
 use Vicoders\ContactForm\Abstracts\Page;
@@ -15,8 +17,6 @@ use Vicoders\ContactForm\Inputs\Select;
 use Vicoders\ContactForm\Inputs\Submit;
 use Vicoders\ContactForm\Inputs\Text;
 use Vicoders\ContactForm\Inputs\Textarea;
-use Illuminate\Support\Collection;
-use NF\Facades\Request;
 
 class Manager
 {
@@ -37,15 +37,20 @@ class Manager
         $form->setType($data['type']);
         $form->setStyle($data['style']);
         $form->setStatus($data['status']);
-        if(isset($data['email_config'])) {
+
+        if (isset($data['email_enable'])) {
+            $form->setEnable($data['email_enable']);
+        }
+        if (isset($data['email_config'])) {
             $form->setConfigEmail($data['email_config']);
         }
-        if(!empty($data['email_template'])) {
+        if (!empty($data['email_template'])) {
             $form->setTemplateEmail($data['email_template']);
         }
-        if(!empty($data['email_variables'])) {
+        if (!empty($data['email_variables'])) {
             $form->setVariableEmail($data['email_variables']);
         }
+
         if (!empty($data['status'])) {
             $flag        = false;
             $init_status = 0;

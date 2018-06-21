@@ -5,7 +5,6 @@ namespace Vicoders\ContactForm;
 global $wpdb;
 define('PREFIX_TABLE', $wpdb->prefix);
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Exception;
 use NF\Facades\App;
@@ -148,7 +147,6 @@ class ContactFormServiceProvider extends ServiceProvider
         add_action('wp_ajax_nopriv_handle_contact_form', [$this, 'handle']);
 
         add_shortcode('nf_contact_form', function ($args) {
-
             $manager = App::make('ContactFormManager');
             $forms   = $manager->getForms();
             if (!isset($forms)) {
@@ -253,16 +251,17 @@ class ContactFormServiceProvider extends ServiceProvider
         $params           = [];
 
         if ($config_email) {
-            $user_data      = [];
-            $query          = new Contact();
-            $query          = $query->whereIn('id', $request['ids']);
-            $contact_data   = $query->orderBy('id', 'DESC')->get();
+            $user_data    = [];
+            $query        = new Contact();
+            $query        = $query->whereIn('id', $request['ids']);
+            $contact_data = $query->orderBy('id', 'DESC')->get();
             if (!empty($contact_data)) {
                 foreach ($contact_data as $key => $item) {
                     $item        = json_decode($item->data, true);
                     $user_data[] = [
-                        'name'  => $item[$variables_email['name']],
-                        'email' => $item[$variables_email['email']],
+                        'name' => $item[$variables_email['name']],
+                        'to'   => $item[$variables_email['email']],
+                        'from' => $config_email['mail_from'],
                     ];
                 }
 
@@ -276,21 +275,25 @@ class ContactFormServiceProvider extends ServiceProvider
                 }
 
                 $users         = collect($user_data);
-                $convert_users = $users->map(function ($item) use ($params, $subject) {
+                $users = $users->map(function ($item) use ($params, $subject) {
                     $tmp_user = new \Vicoders\Mail\Models\User();
                     $tmp_user->setName($item['name'])
-                        ->setEmail($item['email'])
+                        ->setTo($item['to'])
+                        ->setFrom($item['from'])
                         ->setSubject($subject)
                         ->setParams($params);
                     return $tmp_user;
                 });
                 $email_template = file_get_contents($email_template);
-                $email = new \Vicoders\Mail\Email();
-                $email->multi($convert_users, $email_template);
+                $email          = new \Vicoders\Mail\Email($config_email);
+                $email->multi($users, $email_template);
                 $data = [
                     'message' => 'Send email successful',
                     'status'  => 1,
                 ];
+                echo "<pre>";
+                var_dump($users);
+                die;
             }
             wp_send_json(compact('data'));
         }
@@ -328,16 +331,17 @@ class ContactFormServiceProvider extends ServiceProvider
         }
 
         if ($config_email) {
-            $user_data      = [];
-            $query          = new Contact();
-            $query          = $query->where('name_slug', $form_name);
-            $contact_data   = $query->orderBy('id', 'DESC')->get();
+            $user_data    = [];
+            $query        = new Contact();
+            $query        = $query->where('name_slug', $form_name);
+            $contact_data = $query->orderBy('id', 'DESC')->get();
             if (!empty($contact_data)) {
                 foreach ($contact_data as $key => $item) {
                     $item        = json_decode($item->data, true);
                     $user_data[] = [
-                        'name'  => $item[$variables_email['name']],
-                        'email' => $item[$variables_email['email']],
+                        'name' => $item[$variables_email['name']],
+                        'to'   => $item[$variables_email['email']],
+                        'from' => $config_email['mail_from'],
                     ];
                 }
 
@@ -345,13 +349,14 @@ class ContactFormServiceProvider extends ServiceProvider
                 $convert_users = $users->map(function ($item) use ($params, $subject) {
                     $tmp_user = new \Vicoders\Mail\Models\User();
                     $tmp_user->setName($item['name'])
-                        ->setEmail($item['email'])
+                        ->setTo($item['to'])
+                        ->setFrom($item['from'])
                         ->setSubject($subject)
                         ->setParams($params);
                     return $tmp_user;
                 });
                 $email_template = file_get_contents($email_template);
-                $email = new \Vicoders\Mail\Email();
+                $email          = new \Vicoders\Mail\Email($config_email);
                 $email->multi($convert_users, $email_template);
                 $data = [
                     'message' => 'Sent all email successful',
