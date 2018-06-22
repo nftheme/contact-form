@@ -54,7 +54,7 @@ ContactFormManager::add([
         'email' => 'EMAIL_FIELD'
     ],
     'email_config' => [
-        'domain_api'      => 'http://lumen-email.local',
+        'domain_api'      => 'http://sendmail.vicoders.com/',
         'mail_host'       => 'smtp.gmail.com',
         'mail_port'       => '587',
         'mail_from'       => 'canmotcaiten1993@gmail.com',
