@@ -48,10 +48,20 @@ ContactFormManager::add([
     'name'   => 'Contact',
     'type'   => Type::CONTACT,
     'style'  => 'form-1',
-    'email_config' => true, /* default - false */
+    'email_enable' => true, /* default - false */
     'email_variables' => [
         'name'  => 'NAME_FIELD',
         'email' => 'EMAIL_FIELD'
+    ],
+    'email_config' => [
+        'domain_api'      => 'http://sendmail.vicoders.com/',
+        'mail_host'       => 'smtp.gmail.com',
+        'mail_port'       => '587',
+        'mail_from'       => 'canmotcaiten1993@gmail.com',
+        'mail_name'       => 'Garung abc',
+        'mail_username'   => 'daudq.info@gmail.com',
+        'mail_password'   => 'ewbfvktuczudokpo',
+        'mail_encryption' => 'tls',
     ],
     'email_template' => [
         [

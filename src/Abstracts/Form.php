@@ -46,7 +46,13 @@ class Form
      * [$email_module setting for email module]
      * @var array
      */
-    public $email_config = false;
+    public $email_enable = false;
+
+    /**
+     * [$email_module setting for email module]
+     * @var array
+     */
+    public $email_config = [];
 
     /**
      * [$template_email description]
@@ -162,6 +168,23 @@ class Form
      */
     public function getInitStatus() {
         return $this->init_status;
+    }
+
+    /**
+     * [setEnable description]
+     * @param boolean $email_enable [description]
+     */
+    public function setEnable($email_enable) {
+        $this->email_enable = $email_enable;
+        return $this;
+    }
+
+    /**
+     * [getEnable description]
+     * @return boolean [description]
+     */
+    public function getEnable() {
+        return $this->email_enable;
     }
 
     /**

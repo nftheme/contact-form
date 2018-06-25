@@ -30,7 +30,7 @@
             </div>
         </form>
         <?php 
-        if($config_email):
+        if($enable):
         ?>
         <div class="col-xs-12 actions">
             <select class="html_template_inp custom-select-filter" name="template_html">
@@ -44,7 +44,7 @@
                 ?>
             </select>
             <input type="text" class="subject inline-element subject-inp" name="subject" placeholder="subject email">
-            <input type="button" data-page="{{ $param_page }}" data-name="{{ $name_tab }}" class="button send_email_single" name="send_email" value="Send bulk email">
+            <input type="button" data-page="{{ $param_page }}" data-name="{{ $name_tab }}" class="button send_email_single" name="send_email" value="Send to selected email">
             <input type="button" class="button send_email_all" data-page="{{ $param_page }}" data-name="{{ $name_tab }}" name="send_email_all" value="Send all">
         </div>
         <?php  
