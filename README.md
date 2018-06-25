@@ -55,12 +55,12 @@ ContactFormManager::add([
     ],
     'email_config' => [
         'domain_api'      => 'http://sendmail.vicoders.com/',
-        'mail_host'       => 'smtp.gmail.com',
-        'mail_port'       => '587',
-        'mail_from'       => 'canmotcaiten1993@gmail.com',
-        'mail_name'       => 'Garung abc',
-        'mail_username'   => 'daudq.info@gmail.com',
-        'mail_password'   => 'ewbfvktuczudokpo',
+        'mail_host'       => 'HOST MAIL',
+        'mail_port'       => 'PORT',
+        'mail_from'       => 'EMAIL_FROM',
+        'mail_name'       => 'YOUR NAME',
+        'mail_username'   => 'EMAIL SEND',
+        'mail_password'   => 'EMAIL PASSWORD',
         'mail_encryption' => 'tls',
     ],
     'email_template' => [
@@ -76,7 +76,7 @@ ContactFormManager::add([
             ]
         ],
         [
-            'name' => 'Template 1',
+            'name' => 'Template 2',
             'path' => 'PATH_TO_HTML_TEMPLATE',
             'params' => [
                 'example_variable' => 'demo'
