@@ -121,7 +121,7 @@ class ContactFormServiceProvider extends ServiceProvider
             $contact->status    = $status['status'];
             $result             = $contact->save();
             if ($result) {
-                $data['message'] = 'Your infomation is sent';
+                $data['message'] = __('Your infomation is sent', 'vicoders');
             }
         }
         wp_send_json(compact('data'));
@@ -170,14 +170,14 @@ class ContactFormServiceProvider extends ServiceProvider
             $id     = $request['id'];
             $status = $request['status'];
             if (!isset($id) || !isset($status)) {
-                $data['message'] = 'ID or Status value is undefined!';
+                $data['message'] = __('ID or Status value is undefined!', 'vicoders');
                 wp_send_json(compact('data'));
             }
             $contact         = Contact::find($id);
             $contact->status = $status;
             $result          = $contact->save();
             if ($result) {
-                $data['message'] = 'Change status is successful';
+                $data['message'] = __('Change status is successful', 'vicoders');
             }
         }
         wp_send_json(compact('data'));
@@ -185,19 +185,19 @@ class ContactFormServiceProvider extends ServiceProvider
 
     public function deleteRecord()
     {
-        $data['message'] = 'An error occur ! Delete unsuccessful';
+        $data['message'] = __('An error occur ! Delete unsuccessful', 'vicoders');
         $data['status']  = 0;
         $request         = Request::except('action');
         if (!empty($request)) {
             $id = (int) $request['id'];
             if (!isset($id)) {
-                $data['message'] = "Record doesn't exist !";
+                $data['message'] = __("Record doesn't exist !", 'vicoders');
                 wp_send_json(compact('data'));
             }
             $contact = Contact::find($id);
             $result  = $contact->delete();
             if ($result) {
-                $data['message'] = 'Delete record successful';
+                $data['message'] = __('Delete record successful', 'vicoders');
                 $data['status']  = 1;
             }
         }
@@ -207,7 +207,7 @@ class ContactFormServiceProvider extends ServiceProvider
     public function exportRecord()
     {
         $data = [
-            'message' => 'An error occur ! Export failure',
+            'message' => __('An error occur ! Export failure', 'vicoders'),
             'status'  => 0,
             'path'    => '',
         ];
@@ -231,7 +231,7 @@ class ContactFormServiceProvider extends ServiceProvider
     public function sendBulkEmail()
     {
         $data = [
-            'message' => 'An error occur ! Send email failure',
+            'message' => __('An error occur ! Send email failure', 'vicoders'),
             'status'  => 0,
         ];
         $request        = Request::except('action');
@@ -302,7 +302,7 @@ class ContactFormServiceProvider extends ServiceProvider
     public function sendAllEmail()
     {
         $data = [
-            'message' => 'An error occur ! Send email failure',
+            'message' => __('An error occur ! Send email failure', 'vicoders'),
             'status'  => 0,
         ];
         $request        = Request::except('action');
@@ -359,7 +359,7 @@ class ContactFormServiceProvider extends ServiceProvider
                 $email          = new \Vicoders\Mail\Email($config_email);
                 $email->multi($convert_users, $email_template);
                 $data = [
-                    'message' => 'Sent all email successful',
+                    'message' => __('Sent all email successful', 'vicoders'),
                     'status'  => 1,
                 ];
             }
