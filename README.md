@@ -12,7 +12,7 @@ Refer to the instructions here:
 ### B. Installation
 ##### Step 1: Install Through Composer
 ```
-composer require vicoders/contact-form-for-nftheme
+composer require nf/contact-form
 ```
 ##### Step 2: Add the Service Provider
 > Open `config/app.php` and register the required service provider.
@@ -36,8 +36,8 @@ php command migrate
 > You can add your option scheme to `functions.php`
 
 All supported type can be found here 
-- [Input](https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Input.php)
-- [Type](https://github.com/garungabc/ContactFormForNfTheme/blob/master/src/Abstracts/Type.php)
+- [Input](https://github.com/codersvn/nf-contact-form/blob/master/src/Abstracts/Input.php)
+- [Type](https://github.com/codersvn/nf-contact-form/blob/master/src/Abstracts/Type.php)
 
 ```php
 use Vicoders\ContactForm\Abstracts\Input;
