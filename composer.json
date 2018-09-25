@@ -1,10 +1,13 @@
 {
-    "name": "vicoders/contact-form-for-nftheme",
-    "description": "Extension kit for NF Theme",
+    "name": "nf/contact-form",
+    "description": "Contact Form package",
     "license": "MIT",
     "authors": [{
         "name": "Garung",
         "email": "daudq.info@gmail.com"
+    }, {
+        "name": "Hieupv",
+        "email": "hieupv@codersvn.com"
     }],
     "autoload": {
         "psr-4": {
