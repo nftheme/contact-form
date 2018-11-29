@@ -43,21 +43,21 @@ class ContactFormServiceProvider extends ServiceProvider
 
     public function initDirectoriesAndFiles()
     {
-        if (!is_dir(get_stylesheet_directory() . '/database')) {
-            mkdir(get_stylesheet_directory() . '/database', 0755);
+        if (!is_dir($this->app->appPath() . '/database')) {
+            mkdir($this->app->appPath() . '/database', 0755);
         }
-        if (!is_dir(get_stylesheet_directory() . '/database/migrations')) {
-            mkdir(get_stylesheet_directory() . '/database/migrations', 0755);
+        if (!is_dir($this->app->appPath() . '/database/migrations')) {
+            mkdir($this->app->appPath() . '/database/migrations', 0755);
         }
-        if (!is_dir(get_stylesheet_directory() . '/storage/app')) {
-            mkdir(get_stylesheet_directory() . '/storage/app', 0755);
+        if (!is_dir($this->app->appPath() . '/storage/app')) {
+            mkdir($this->app->appPath() . '/storage/app', 0755);
         }
-        if (!is_dir(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/cache')) {
-            mkdir(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/resources/cache', 0755);
+        if (!is_dir($this->app->appPath() . '/vendor/nf/contact-form/resources/cache')) {
+            mkdir($this->app->appPath() . '/vendor/nf/contact-form/resources/cache', 0755);
         }
 
-        if (!file_exists(get_stylesheet_directory() . '/database/migrations/2018_01_01_000000_create_contact_table.php')) {
-            copy(get_stylesheet_directory() . '/vendor/vicoders/contact-form-for-nftheme/src/database/migrations/2018_01_01_000000_create_contact_table.php', get_stylesheet_directory() . '/database/migrations/2018_01_01_000000_create_contact_table.php');
+        if (!file_exists($this->app->appPath() . '/database/migrations/2018_01_01_000000_create_contact_table.php')) {
+            copy($this->app->appPath() . '/vendor/nf/contact-form/src/database/migrations/2018_01_01_000000_create_contact_table.php', $this->app->appPath() . '/database/migrations/2018_01_01_000000_create_contact_table.php');
         }
     }
 
@@ -79,15 +79,33 @@ class ContactFormServiceProvider extends ServiceProvider
         add_action('admin_enqueue_scripts', function () {
             wp_enqueue_media();
         });
+
         add_action('admin_enqueue_scripts', function () {
+            $app_css  = wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/contact-form/assets/dist/app.css');
+            $app_js   = wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/contact-form/assets/dist/app.js');
+            $admin_js = wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/contact-form/assets/dist/admin.js');
+
+            if ($this->app->app_config['is_plugin'] === true) {
+                $app_css  = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'vendor/nf/contact-form/assets/dist/app.css');
+                $app_js   = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'vendor/nf/contact-form/assets/dist/app.js');
+                $admin_js = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'vendor/nf/contact-form/assets/dist/admin.js');
+            }
+
             wp_enqueue_style(
                 'admin-contact-style',
-                wp_slash(get_stylesheet_directory_uri() . '/vendor/vicoders/contact-form-for-nftheme/assets/dist/app.css'),
+                $app_css,
                 false
             );
             wp_enqueue_script(
+                'frontend-contact-scripts',
+                $app_js,
+                'jquery',
+                '1.0.4',
+                true
+            );
+            wp_enqueue_script(
                 'admin-contact-scripts',
-                wp_slash(get_stylesheet_directory_uri() . '/vendor/vicoders/contact-form-for-nftheme/assets/dist/app.js'),
+                $admin_js,
                 'jquery',
                 '1.0.4',
                 true
@@ -130,14 +148,22 @@ class ContactFormServiceProvider extends ServiceProvider
     public function registerAction()
     {
         add_action('wp_enqueue_scripts', function () {
+            $app_css = wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/contact-form/assets/dist/app.css');
+            $app_js = wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/contact-form/assets/dist/app.js');
+
+            if ($this->app->app_config['is_plugin'] === true) {
+                $app_css = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'vendor/nf/contact-form/assets/dist/app.css');
+                $app_js = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'vendor/nf/contact-form/assets/dist/app.js');
+            }
+
             wp_enqueue_style(
                 'contact-form-style',
-                wp_slash(get_stylesheet_directory_uri() . '/vendor/vicoders/contact-form-for-nftheme/assets/dist/app.css'),
+                $app_css,
                 false
             );
             wp_enqueue_script(
                 'contact-form-scripts',
-                wp_slash(get_stylesheet_directory_uri() . '/vendor/vicoders/contact-form-for-nftheme/assets/dist/app.js'),
+                $app_js,
                 'jquery',
                 '1.1',
                 true
@@ -274,7 +300,7 @@ class ContactFormServiceProvider extends ServiceProvider
                     }
                 }
 
-                $users         = collect($user_data);
+                $users = collect($user_data);
                 $users = $users->map(function ($item) use ($params, $subject) {
                     $tmp_user = new \Vicoders\Mail\Models\User();
                     $tmp_user->setName($item['name'])
