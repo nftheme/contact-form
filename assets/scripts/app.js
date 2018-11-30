@@ -8,38 +8,45 @@ import {
 }
 from './form';
 
-import './admin'
+import './admin';
 
 (function($) {
-    let forms = [];
-    $(document).find('[nf-contact]').each(function(key, item) {
-        let form = new Form(item);
-        form.on('submit', (event) => {
-            if (!form.isDisabled()) {
-                form.disable();
-                $.ajax({
-                        method: 'POST',
-                        url: ajax_obj.ajax_url,
-                        data: Object.assign(form.getValues(), {
-                            action: 'handle_contact_form'
-                        }),
+    $(document).ready(function() {
+        submitForm();
+    });
 
-                    })
-                    .done((response) => {
-                        notify.show('success', response.data.message, 5000)
-                    })
-                    .fail(() => {
-                        notify.show('warning', 'An error is occur', 5000);
-                    })
-                    .always(() => {
-                        form.enable();
-                    });
-            }
-            return false;
-        });
+    document.addEventListener('complaintFormLoaded', function() {
+        submitForm();
     })
 
-    console.log(forms);
+    function submitForm() {
+        let forms = [];
+        $(document).find('[nf-contact]').each(function(key, item) {
+            let form = new Form(item);
+            form.on('submit', (event) => {
+                if (!form.isDisabled()) {
+                    form.disable();
+                    $.ajax({
+                            method: 'POST',
+                            url: ajax_obj.ajax_url,
+                            data: Object.assign(form.getValues(), {
+                                action: 'handle_contact_form'
+                            }),
 
+                        })
+                        .done((response) => {
+                            notify.show('success', response.data.message, 5000)
+                        })
+                        .fail(() => {
+                            notify.show('warning', 'An error is occur', 5000);
+                        })
+                        .always(() => {
+                            form.enable();
+                        });
+                }
+                return false;
+            });
+        })
+    }
 
 })(jQuery)

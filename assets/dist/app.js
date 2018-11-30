@@ -12383,32 +12383,40 @@ var _form = __webpack_require__(8);
 __webpack_require__(9);
 
 (function ($) {
-    var forms = [];
-    $(document).find('[nf-contact]').each(function (key, item) {
-        var form = new _form.Form(item);
-        form.on('submit', function (event) {
-            if (!form.isDisabled()) {
-                form.disable();
-                $.ajax({
-                    method: 'POST',
-                    url: ajax_obj.ajax_url,
-                    data: Object.assign(form.getValues(), {
-                        action: 'handle_contact_form'
-                    })
-
-                }).done(function (response) {
-                    _services.notify.show('success', response.data.message, 5000);
-                }).fail(function () {
-                    _services.notify.show('warning', 'An error is occur', 5000);
-                }).always(function () {
-                    form.enable();
-                });
-            }
-            return false;
-        });
+    $(document).ready(function () {
+        submitForm();
     });
 
-    console.log(forms);
+    document.addEventListener('complaintFormLoaded', function () {
+        submitForm();
+    });
+
+    function submitForm() {
+        var forms = [];
+        $(document).find('[nf-contact]').each(function (key, item) {
+            var form = new _form.Form(item);
+            form.on('submit', function (event) {
+                if (!form.isDisabled()) {
+                    form.disable();
+                    $.ajax({
+                        method: 'POST',
+                        url: ajax_obj.ajax_url,
+                        data: Object.assign(form.getValues(), {
+                            action: 'handle_contact_form'
+                        })
+
+                    }).done(function (response) {
+                        _services.notify.show('success', response.data.message, 5000);
+                    }).fail(function () {
+                        _services.notify.show('warning', 'An error is occur', 5000);
+                    }).always(function () {
+                        form.enable();
+                    });
+                }
+                return false;
+            });
+        });
+    }
 })(jQuery);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 

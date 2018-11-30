@@ -18,7 +18,7 @@ use Vicoders\ContactForm\Paginate\PaginationHelper;
 class ContactFormServiceProvider extends ServiceProvider
 {
     public function register()
-    {
+    {   
         $this->app->singleton('ContactFormView', function ($app) {
             $view = new \NF\View\View;
             $view->setViewPath(__DIR__ . '/../resources/views');
@@ -86,9 +86,9 @@ class ContactFormServiceProvider extends ServiceProvider
             $admin_js = wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/contact-form/assets/dist/admin.js');
 
             if ($this->app->app_config['is_plugin'] === true) {
-                $app_css  = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'vendor/nf/contact-form/assets/dist/app.css');
-                $app_js   = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'vendor/nf/contact-form/assets/dist/app.js');
-                $admin_js = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'vendor/nf/contact-form/assets/dist/admin.js');
+                $app_css  = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'contact-form/assets/dist/app.css');
+                $app_js   = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'contact-form/assets/dist/app.js');
+                $admin_js = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'contact-form/assets/dist/admin.js');
             }
 
             wp_enqueue_style(
@@ -114,6 +114,7 @@ class ContactFormServiceProvider extends ServiceProvider
             $params   = [
                 'ajax_url' => admin_url('admin-ajax.php', $protocol),
             ];
+
             wp_localize_script('admin-contact-scripts', 'ajax_obj', $params);
         });
 
@@ -152,8 +153,8 @@ class ContactFormServiceProvider extends ServiceProvider
             $app_js = wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/contact-form/assets/dist/app.js');
 
             if ($this->app->app_config['is_plugin'] === true) {
-                $app_css = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'vendor/nf/contact-form/assets/dist/app.css');
-                $app_js = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'vendor/nf/contact-form/assets/dist/app.js');
+                $app_css = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'contact-form/assets/dist/app.css');
+                $app_js = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'contact-form/assets/dist/app.js');
             }
 
             wp_enqueue_style(
