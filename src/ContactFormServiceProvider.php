@@ -18,7 +18,7 @@ use Vicoders\ContactForm\Paginate\PaginationHelper;
 class ContactFormServiceProvider extends ServiceProvider
 {
     public function register()
-    {   
+    {
         $this->app->singleton('ContactFormView', function ($app) {
             $view = new \NF\View\View;
             $view->setViewPath(__DIR__ . '/../resources/views');
@@ -32,33 +32,12 @@ class ContactFormServiceProvider extends ServiceProvider
         $this->app->singleton('PaginationHelper', function ($app) {
             return new PaginationHelper;
         });
-        $this->initDirectoriesAndFiles();
 
         if (is_admin()) {
             $this->registerAdminMenu();
             $this->registerAdminPostAction();
         }
         $this->registerAction();
-    }
-
-    public function initDirectoriesAndFiles()
-    {
-        if (!is_dir($this->app->appPath() . '/database')) {
-            mkdir($this->app->appPath() . '/database', 0755);
-        }
-        if (!is_dir($this->app->appPath() . '/database/migrations')) {
-            mkdir($this->app->appPath() . '/database/migrations', 0755);
-        }
-        if (!is_dir($this->app->appPath() . '/storage/app')) {
-            mkdir($this->app->appPath() . '/storage/app', 0755);
-        }
-        if (!is_dir($this->app->appPath() . '/vendor/nf/contact-form/resources/cache')) {
-            mkdir($this->app->appPath() . '/vendor/nf/contact-form/resources/cache', 0755);
-        }
-
-        if (!file_exists($this->app->appPath() . '/database/migrations/2018_01_01_000000_create_contact_table.php')) {
-            copy($this->app->appPath() . '/vendor/nf/contact-form/src/database/migrations/2018_01_01_000000_create_contact_table.php', $this->app->appPath() . '/database/migrations/2018_01_01_000000_create_contact_table.php');
-        }
     }
 
     public function registerCommand()
@@ -150,11 +129,11 @@ class ContactFormServiceProvider extends ServiceProvider
     {
         add_action('wp_enqueue_scripts', function () {
             $app_css = wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/contact-form/assets/dist/app.css');
-            $app_js = wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/contact-form/assets/dist/app.js');
+            $app_js  = wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/contact-form/assets/dist/app.js');
 
             if ($this->app->app_config['is_plugin'] === true) {
                 $app_css = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'contact-form/assets/dist/app.css');
-                $app_js = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'contact-form/assets/dist/app.js');
+                $app_js  = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'contact-form/assets/dist/app.js');
             }
 
             wp_enqueue_style(
