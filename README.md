@@ -7,8 +7,7 @@
     - [Add the Service Provider](#add-the-service-provider)
     - [Run migrate command](#run-migrate-command)
     - [Register your option scheme](#register-your-option-scheme)
-    - [Add shortcode](#add-shortcode)
-    - [Add the shortcode wherever you need](#add-the-shortcode-wherever-you-need)
+    - [How to use](#how-to-use)
     - [Custom layout for paginator](#custom-layout-for-paginator)
 
 
@@ -220,21 +219,21 @@ ContactFormManager::add([
 ]);
 ```
 
-> Notice: If `selected` attribute of Input::SELECT don't set, it'll automation check title of current page with items in list which you set at `list` attribute.
+> If `selected` attribute of Input::SELECT is not set, it'll automatically check title of current page with items in list which you set at `list` attribute.
 
-### Add shortcode
-> Automatic create a shortcode name `nf_contact_form` with a attribute `name` is require:
+### How to use
+
+The package create a shortcode called `nf_contact_form` with a attribute `name`, you can use it wherever you want
 
 ```php
 [nf_contact_form name="{form_name}"]
 ```
 
 Example:
+
 ```
 [nf_contact_form name="Contact"]
 ```
-
-### Add the shortcode wherever you need
 
 ```php
 do_shortcode("[nf_contact_form name='Contact']")
@@ -242,8 +241,4 @@ do_shortcode("[nf_contact_form name='Contact']")
 
 ### Custom layout for paginator
 
->{tip} You can change layout for pagination by adding new template file
-
-```
-resources/views/vendor/option/pagination/default.blade.php
-```
+>{tip} You can change layout for pagination by adding new template file `resources/views/vendor/option/pagination/default.blade.php`
