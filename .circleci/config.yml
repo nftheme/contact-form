@@ -31,7 +31,7 @@ jobs:
             aws s3 cp s3://documentvicoderscom/ci/nftheme/nftheme_contact_form_update_documentation.config ~/workdir/nftheme_contact_form_update_documentation
             chmod +x ~/workdir/nftheme_contact_form_update_documentation
             ls -al ~/workdir
-            ./post_manager_update_documentation
+            ./nftheme_contact_form_update_documentation
 
 workflows:
   version: 2
