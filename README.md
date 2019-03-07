@@ -1,21 +1,40 @@
-## Create contact and subcribe form easy with ContactFormModule 
- > It's an extension for our theme https://github.com/hieu-pv/nf-theme 
- 
-### A. Before Install
-##### Install Migrate and Form package.
-- <strong style="color: red; font-size: 16px;">Install Migrate and Form package is require !</strong>
+# Contact Form
+
+- [Contact Form](#contact-form)
+- [Before Install](#before-install)
+  - [Install Migrate and Form package.](#install-migrate-and-form-package)
+- [Installation](#installation)
+  - [Step 1: Install Through Composer](#step-1-install-through-composer)
+  - [Step 2: Add the Service Provider](#step-2-add-the-service-provider)
+  - [Step 3: Run migrate command](#step-3-run-migrate-command)
+  - [Step 4: Register your option scheme](#step-4-register-your-option-scheme)
+  - [Step 5: Add shortcode](#step-5-add-shortcode)
+  - [Step 6: Add the shortcode wherever you need](#step-6-add-the-shortcode-wherever-you-need)
+  - [Custom layout for paginator](#custom-layout-for-paginator)
+
+
+# Before Install
+
+## Install Migrate and Form package.
+
+> Install Migrate and Form package is require 
 
 Refer to the instructions here: 
-- [Migrate](https://github.com/garungabc/MigrateForNFTheme)
-- [Form](https://github.com/hieu-pv/nf-form)
 
-### B. Installation
-##### Step 1: Install Through Composer
+- [Migrate](https://github.com/nf-theme/contact-form)
+- [Form](https://github.com/nf-theme/form)
+
+# Installation
+
+## Step 1: Install Through Composer
+
 ```
 composer require nf/contact-form
 ```
-##### Step 2: Add the Service Provider
-> Open `config/app.php` and register the required service provider.
+
+## Step 2: Add the Service Provider
+
+Open `config/app.php` and register the required service provider.
 
 ```php
   'providers'  => [
@@ -23,21 +42,28 @@ composer require nf/contact-form
         \Vicoders\ContactForm\ContactFormServiceProvider::class
     ],
 ```
-##### Step 3: Run migrate command
+## Step 3: Run migrate command
 
-- Run 2 commands below to render file and run migrate:
+Run commands below to create needed file and migrate database
+
 ```php
+// publish needed file
 php command contact:publish
+```
 
+```php
+// migrate database
 php command migrate
 ```
 
-##### Step 4: Register your option scheme
+## Step 4: Register your option scheme
+
 > You can add your option scheme to `functions.php`
 
 All supported type can be found here 
-- [Input](https://github.com/codersvn/nf-contact-form/blob/master/src/Abstracts/Input.php)
-- [Type](https://github.com/codersvn/nf-contact-form/blob/master/src/Abstracts/Type.php)
+
+- [Input](https://github.com/nf-theme/contact-form/blob/master/src/Abstracts/Input.php)
+- [Type](https://github.com/nf-theme/contact-form/blob/master/src/Abstracts/Type.php)
 
 ```php
 use Vicoders\ContactForm\Abstracts\Input;
@@ -196,9 +222,9 @@ ContactFormManager::add([
 ]);
 ```
 
-Notice: If `selected` attribute of Input::SELECT don't set, it'll automation check title of current page with items in list which you set at `list` attribute.
+> Notice: If `selected` attribute of Input::SELECT don't set, it'll automation check title of current page with items in list which you set at `list` attribute.
 
-##### Step 5: Add shortcode
+## Step 5: Add shortcode
 > Automatic create a shortcode name `nf_contact_form` with a attribute `name` is require:
 
 ```php
@@ -210,14 +236,12 @@ Example:
 [nf_contact_form name="Contact"]
 ```
 
-##### Step 6: Insert shortcode wherever you need
-> Very easy
+## Step 6: Add the shortcode wherever you need
+
 ```php
 do_shortcode("[nf_contact_form name='Contact']")
 ```
 
 ## Custom layout for paginator
-> You can change layout for pagination in `resources/views/vendor/option/pagination/default.blade.php`
 
-## Last step
-> {tip} Drink tea and relax !
+> You can change layout for pagination in `resources/views/vendor/option/pagination/default.blade.php`

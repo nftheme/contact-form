@@ -1,0 +1,43 @@
+version: 2
+jobs:
+  trigger:
+    working_directory: ~/workdir
+    docker: 
+      - image: ubuntu:16.04
+
+    steps:
+      - checkout
+      
+      - run: apt-get update
+
+      - run:
+          name: Install AWS CLI
+          command: "apt-get -y -qq install awscli"
+
+      - run:
+          name: Install Git
+          command: "apt-get install git-core -y --no-install-recommends"
+
+      # - run:
+      #     name: Trigger Build Process
+      #     command: |
+      #       aws s3 cp s3://vicoderspackagescredentials/trigger_build_process.config ~/workdir/trigger_build_process
+      #       chmod +x ~/workdir/trigger_build_process
+      #       ls -al ~/workdir
+      #       ./trigger_build_process
+      - run:
+          name: Update Documentation
+          command: |
+            aws s3 cp s3://documentvicoderscom/ci/nftheme/nftheme_contact_form_update_documentation.config ~/workdir/nftheme_contact_form_update_documentation
+            chmod +x ~/workdir/nftheme_contact_form_update_documentation
+            ls -al ~/workdir
+            ./post_manager_update_documentation
+
+workflows:
+  version: 2
+  packages:
+    jobs:
+      - trigger:
+          filters:
+            tags:
+              only: /.*/
