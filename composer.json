@@ -1,25 +1,27 @@
 {
-    "name": "nf/contact-form",
-    "description": "Contact Form package",
-    "license": "MIT",
-    "authors": [{
-        "name": "Garung",
-        "email": "daudq.info@gmail.com"
-    }, {
-        "name": "Hieupv",
-        "email": "hieupv@codersvn.com"
-    }],
-    "autoload": {
-        "psr-4": {
-            "Vicoders\\ContactForm\\": "src/"
-        }
+  "name": "nf/contact-form",
+  "description": "Contact Form package",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Garung",
+      "email": "daudq.info@gmail.com"
     },
-    "require": {
-        "php": ">=5.6",
-        "nf/core": ">=2.0",
-        "guzzlehttp/guzzle": "^6.3",
-        "nf/form": "^1.0",
-        "league/csv": "^8.0",
-        "vicoders/migration-for-nftheme": "^1.0"
+    {
+      "name": "Hieupv",
+      "email": "hieupv@codersvn.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Vicoders\\ContactForm\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=5.6",
+    "nf/core": ">=2.0",
+    "guzzlehttp/guzzle": "^6.3",
+    "nf/form": "^1.0",
+    "league/csv": "^8.0"
+  }
 }
