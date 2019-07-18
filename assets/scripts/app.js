@@ -35,7 +35,14 @@ import './admin';
 
                         })
                         .done((response) => {
-                            notify.show('success', response.data.message, 5000)
+                            notify.show('success', response.data.message, 5000);
+                            Window.location.href = self.location;
+//                             if(response.data.current_lang === 'en') {
+//                                  Window.location.href = "/en";
+//                             }
+//                         else{
+//                             Window.location.href = "/";
+//                         }
                         })
                         .fail(() => {
                             notify.show('warning', 'An error is occur', 5000);
