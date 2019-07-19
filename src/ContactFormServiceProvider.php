@@ -119,9 +119,14 @@ class ContactFormServiceProvider extends ServiceProvider
             $contact->status    = $status['status'];
             $result             = $contact->save();
             if ($result) {
-                $data['message'] = __('Your infomation is sent', 'vicoders');
+                $data['message']      = __('Xin cảm ơn', 'vicoders');
+                $data['current_lang'] = pll_current_language();
             }
+
         }
+
+        do_action('contact_form_submitted', ['request' => Request::all(), 'item' => $contact]);
+
         wp_send_json(compact('data'));
     }
 
