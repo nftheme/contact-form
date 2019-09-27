@@ -7,31 +7,40 @@ use NF\Facades\Request;
 use Vicoders\ContactForm\Abstracts\Form;
 use Vicoders\ContactForm\Abstracts\Input;
 use Vicoders\ContactForm\Abstracts\Page;
-use Vicoders\ContactForm\Inputs\Date;
-use Vicoders\ContactForm\Inputs\DateTime;
-use Vicoders\ContactForm\Inputs\Email;
-use Vicoders\ContactForm\Inputs\Gallery;
-use Vicoders\ContactForm\Inputs\Image;
-use Vicoders\ContactForm\Inputs\Number;
-use Vicoders\ContactForm\Inputs\Select;
-use Vicoders\ContactForm\Inputs\Submit;
-use Vicoders\ContactForm\Inputs\Text;
-use Vicoders\ContactForm\Inputs\Textarea;
+use Vicoders\Input\Inputs\Date;
+use Vicoders\Input\Inputs\DateTime;
+use Vicoders\Input\Inputs\Email;
+use Vicoders\Input\Inputs\Gallery;
+use Vicoders\Input\Inputs\Image;
+use Vicoders\Input\Inputs\Number;
+use Vicoders\Input\Inputs\Select;
+use Vicoders\Input\Inputs\Submit;
+use Vicoders\Input\Inputs\Text;
+use Vicoders\Input\Inputs\Textarea;
 
 class Manager
 {
     const MENU_SLUG           = 'nf-theme-contact';
     const NTO_SAVED_SUCCESSED = 'nto_saved_successed';
 
-    public $pages;
-    public $forms;
+    public $pages = [];
+    public $forms = [];
     public $type;
 
-    public function add($data)
+    public function add($data, $options = [])
     {
         $this->type = $data['type'];
         $page       = new Page();
         $form       = new Form();
+
+        if (is_array($options)) {
+            if ($options['redirect_url']) {
+                $form->setRedirectUrl($options['redirect_url']);
+            }
+            if ($options['message']) {
+                $form->setMessage($options['message']);
+            }
+        }
         $page->setName($data['name']);
         $form->setName($data['name']);
         $form->setType($data['type']);

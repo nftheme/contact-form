@@ -4,7 +4,6 @@ namespace Vicoders\ContactForm\Inputs;
 
 use Vicoders\ContactForm\Abstracts\Input;
 use NightFury\Form\Facades\Form;
-
 class Text extends Input
 {
     /**
@@ -42,7 +41,7 @@ class Text extends Input
     {
         $value = get_option($this->name, '');
         $html = '';
-        $html .= '<div class="wrap-group group-text-' . str_slug($this->name) . '">';
+        $html .= '<div class="ws wrap-group group-text-' . str_slug($this->name) . '">';
         if($this->label !== '') {
             $html .= Form::label($this->name, $this->label, ['class' => 'nfmodule-label-' . $this->name]);
         }

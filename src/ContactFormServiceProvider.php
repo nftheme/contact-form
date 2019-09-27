@@ -6,7 +6,6 @@ global $wpdb;
 define('PREFIX_TABLE', $wpdb->prefix);
 
 use Illuminate\Support\ServiceProvider;
-use League\Flysystem\Exception;
 use NF\Facades\App;
 use NF\Facades\Request;
 use Vicoders\ContactForm\Console\PublishCommand;
@@ -119,9 +118,21 @@ class ContactFormServiceProvider extends ServiceProvider
             $contact->status    = $status['status'];
             $result             = $contact->save();
             if ($result) {
-                $data['message'] = __('Your infomation is sent', 'vicoders');
+                $form            = App::make('ContactFormManager')->getForm($contact->name_slug);
+                $message         = $form->getMessage();
+                $data['message'] = $message;
+                if (function_exists('pll_current_language')) {
+                    $data['current_lang'] = pll_current_language();
+                }
+                $redirect_url = $form->getRedirectUrl();
+                if (isset($redirect_url)) {
+                    $data['redirect_url'] = $redirect_url;
+                }
             }
         }
+
+        do_action('contact_form_submitted', ['request' => Request::all(), 'item' => $contact]);
+
         wp_send_json(compact('data'));
     }
 
@@ -163,8 +174,9 @@ class ContactFormServiceProvider extends ServiceProvider
             $style     = $form->getStyle();
             $status    = $form->getInitStatus();
             $name_slug = str_slug($form->getName());
+            $name      = $form->getName();
             $fields    = $form->fields;
-            return App::make('ContactFormView')->render('contact_form', compact('fields', 'type', 'style', 'name_slug', 'status'));
+            return App::make('ContactFormView')->render('contact_form', compact('fields', 'type', 'style', 'name_slug', 'name', 'status'));
         });
     }
 

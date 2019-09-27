@@ -59,12 +59,12 @@ php command migrate
 
 All supported type can be found here 
 
-- [Input](https://github.com/nf-theme/contact-form/blob/master/src/Abstracts/Input.php)
-- [Type](https://github.com/nf-theme/contact-form/blob/master/src/Abstracts/Type.php)
+- [Input](https://github.com/nf-theme/inputs/blob/master/src/Abstracts/Input.php)
+- [Type](https://github.com/nf-theme/inputs/blob/master/src/Abstracts/Type.php)
 
 ```php
-use Vicoders\ContactForm\Abstracts\Input;
-use Vicoders\ContactForm\Abstracts\Type;
+use Vicoders\Input\Abstracts\Input;
+use Vicoders\Input\Abstracts\Type;
 use Vicoders\ContactForm\Facades\ContactFormManager;
 
 ContactFormManager::add([

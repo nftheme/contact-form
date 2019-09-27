@@ -67,6 +67,18 @@ class Form
     public $email_variables = [];
 
     /**
+     * Redirect URL
+     * @var string
+     */
+    public $redirect_url;
+
+    /**
+     * Message
+     * @var string
+     */
+    public $message = 'Your message is sent';
+
+    /**
      * @param string $name
      *
      * @return self
@@ -102,7 +114,8 @@ class Form
      * [setType set a string is type of page]
      * @param string $type_page [description]
      */
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->type = $type;
         return $this;
     }
@@ -111,7 +124,8 @@ class Form
      * [getType return type of form into config]
      * @return string [description]
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 
@@ -119,7 +133,8 @@ class Form
      * [setType set a string is type of page]
      * @param string $type_page [description]
      */
-    public function setStyle($style) {
+    public function setStyle($style)
+    {
         $this->style = $style;
         return $this;
     }
@@ -128,11 +143,13 @@ class Form
      * [getStyle return style of form into config]
      * @return string [description]
      */
-    public function getStyle() {
+    public function getStyle()
+    {
         return $this->style;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -140,7 +157,8 @@ class Form
      * [setStatus description]
      * @param array $status [description]
      */
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
         return $this;
     }
@@ -149,7 +167,8 @@ class Form
      * [getStatus description]
      * @return array [description]
      */
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
@@ -157,7 +176,8 @@ class Form
      * [setInitStatus description]
      * @param [type] $init_status [description]
      */
-    public function setInitStatus($init_status) {
+    public function setInitStatus($init_status)
+    {
         $this->init_status = $init_status;
         return $this;
     }
@@ -166,7 +186,8 @@ class Form
      * [getInitStatus description]
      * @return integer [description]
      */
-    public function getInitStatus() {
+    public function getInitStatus()
+    {
         return $this->init_status;
     }
 
@@ -174,7 +195,8 @@ class Form
      * [setEnable description]
      * @param boolean $email_enable [description]
      */
-    public function setEnable($email_enable) {
+    public function setEnable($email_enable)
+    {
         $this->email_enable = $email_enable;
         return $this;
     }
@@ -183,7 +205,8 @@ class Form
      * [getEnable description]
      * @return boolean [description]
      */
-    public function getEnable() {
+    public function getEnable()
+    {
         return $this->email_enable;
     }
 
@@ -191,7 +214,8 @@ class Form
      * [setConfigEmail description]
      * @param boolean $config_email [description]
      */
-    public function setConfigEmail($email_config) {
+    public function setConfigEmail($email_config)
+    {
         $this->email_config = $email_config;
         return $this;
     }
@@ -200,7 +224,8 @@ class Form
      * [getConfigEmail description]
      * @return [type] [description]
      */
-    public function getConfigEmail() {
+    public function getConfigEmail()
+    {
         return $this->email_config;
     }
 
@@ -208,7 +233,8 @@ class Form
      * [setTemplateEmail description]
      * @param array $template_email [description]
      */
-    public function setTemplateEmail($email_template) {
+    public function setTemplateEmail($email_template)
+    {
         $this->email_template = $email_template;
         return $this;
     }
@@ -217,7 +243,8 @@ class Form
      * [getTemplateEmail description]
      * @return array [description]
      */
-    public function getTemplateEmail() {
+    public function getTemplateEmail()
+    {
         return $this->email_template;
     }
 
@@ -225,7 +252,8 @@ class Form
      * [setVariableEmail description]
      * @param array $email_variables [description]
      */
-    public function setVariableEmail($email_variables) {
+    public function setVariableEmail($email_variables)
+    {
         $this->email_variables = $email_variables;
         return $this;
     }
@@ -234,7 +262,46 @@ class Form
      * [getVariableEmail description]
      * @return array [description]
      */
-    public function getVariableEmail() {
+    public function getVariableEmail()
+    {
         return $this->email_variables;
+    }
+
+    /**
+     * Set Redirect URL
+     * @param object $this
+     */
+    public function setRedirectUrl($url)
+    {
+        $this->redirect_url = $url;
+        return $this;
+    }
+
+    /**
+     * Get redirect url
+     * @return string url
+     */
+    public function getRedirectUrl()
+    {
+        return $this->redirect_url;
+    }
+
+    /**
+     * Set message
+     * @param object $this
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+        return $this;
+    }
+
+    /**
+     * Get message
+     * @return string message
+     */
+    public function getMessage()
+    {
+        return $this->message;
     }
 }
