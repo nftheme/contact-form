@@ -3,5 +3,4 @@
 /.phpintel
 /node_modules
 /src_2
-resources/cache/*
 composer.lock
