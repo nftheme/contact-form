@@ -7,7 +7,7 @@
     "license": "MIT",
     "dependencies": {
         "bootstrap": "^4.0.0-beta",
-        "jquery": "^3.2.1",
+        "jquery": "^3.5.0",
         "sortablejs": "^1.7.0",
         "vicoders": "^1.0.8"
     },
